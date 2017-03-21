@@ -1,7 +1,7 @@
 var webpack = require("webpack");
 var providePlugin = new webpack.ProvidePlugin({$: 'jquery', jQuery: 'jquery', 'window.jQuery': "jquery"});
 module.exports = {
-    entry: "./src/js/entry.js",
+    entry: "./src/js/index.js",
     output: {
         path: "./static/",
         publicPath: "http://localhost:8080/static/",
