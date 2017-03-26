@@ -52,6 +52,20 @@ var MyPlane = React.createClass({
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // //道具的样子
 // //1.加强子弹
 // var BulletBuff = React.createClass({
