@@ -1,27 +1,7 @@
 const React = require("react");
 const ReactDom = require("react-dom");
 
-//公共的计时器,把计算出来的lastTime放到全局中
-var startKey = true;
-var pauseKey = false;
-var startTime;
-var lastTime;
 
-function add() {
-    if(startKey) {
-        startTime = Date.now();
-        startKey = false;
-    }else{
-        var endTime = Date.now();
-        lastTime = endTime - startTime;
-        // console.log(lastTime);
-    }
-    if(!pauseKey) {
-        requestAnimationFrame(add);
-    }
-    
-}
-requestAnimationFrame(add);
 
 
 
@@ -183,6 +163,28 @@ ReactDom.render(
 
 //-------------------------------------------------动态操作----------------------
 
+//公共的计时器,把计算出来的lastTime放到全局中
+var startKey = true;
+var pauseKey = false;
+var startTime;
+var lastTime;
+
+function add() {
+    if(startKey) {
+        startTime = Date.now();
+        startKey = false;
+    }else{
+        var endTime = Date.now();
+        lastTime = endTime - startTime;
+        // console.log(lastTime);
+    }
+    if(!pauseKey) {
+        requestAnimationFrame(add);
+    }
+    
+}
+requestAnimationFrame(add);
+
 
 //-------------------------------------敌机----------------------
 // 移动
@@ -225,10 +227,12 @@ setInterval(function () {
             
         }
         planeMove(planeArry[planeArry.length - 1])
+    }
 
-       if(planeArry[0].offsetTop > 480) {
+    if(planeArry[0]) {
+        if(planeArry[0].offsetTop > window.innerHeight) {
             $(planeArry[0]).remove();
-       }
+        }
     }
 }, 1000)    //1000可以修改，改成合适的
 
@@ -265,4 +269,42 @@ function addBullet() {
     }
 }
 
-setInterval(addBullet, 100)
+setInterval(addBullet, 200)
+
+//------------------------------------------道具-------------------------
+
+// setInterval(function () {
+//     console.log(lastTime);
+// }, 200) 
+
+function itemMove(ele) {
+    var speed = 4;
+    function move() {
+        ele.style.top = ele.offsetTop + speed + "px";
+        if(ele.offsetTop <= window.innerHeight) {
+            requestAnimationFrame(move);
+        }
+    }
+    requestAnimationFrame(move);
+}
+
+function addItem() {
+    var item  = document.getElementsByClassName("item");
+    if(item) {
+        if(item.length < 1) {
+            $("<div>")
+                    .addClass("item")
+                    .css({left: Math.floor(Math.random() * (window.innerWidth - 30)) +"px"})
+                    .appendTo($("#itemBox"))
+            
+            itemMove(item[item.length - 1]); 
+        }
+    }
+    
+
+    if(item[0].offsetTop > window.innerHeight) {
+        $(item[0]).remove();
+    }
+       
+}
+setInterval(addItem, 1000)
