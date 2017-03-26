@@ -304,7 +304,7 @@ var App = React.createClass({
         })
     },
     render: function () {
-        return (
+        return (    
             <div>
                 <SearchBar changeFilerText={this.changeFilerText} changeOnlyShowStocked={this.changeOnlyShowStocked}></SearchBar>
                 <ProductTable filerText={this.state.filerText} onlyShowStocked={this.state.onlyShowStocked} products={this.props.products}></ProductTable>

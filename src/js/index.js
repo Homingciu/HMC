@@ -33,7 +33,7 @@ var MyPlane = React.createClass({
             style: {
                 height: "80px",
                 width: "50px",
-                backgroundColor: "red",
+                backgroundColor: "green",
                 position: "absolute",
                 bottom: "0px",
                 left: "50%",
@@ -41,189 +41,16 @@ var MyPlane = React.createClass({
             }
         }
     },
-    //飞机的拖拽方法
-    drag: function (event) {
-        var event = event || window.event;
-        var plane = document.getElementById("myPlane");
-        var disX = event.touches[0].clientX - plane.offsetLeft - 25,
-            disY = event.touches[0].clientY - plane.offsetTop;
-        
-        plane.addEventListener("touchmove", move)
-        plane.addEventListener("touchend", clear)
-
-        function clear() {
-            plane.removeEventListener("touchmove", move);
-            plane.removeEventListener("touchend", clear);
-        }
-
-        function move(event) {
-            plane.style.left = event.touches[0].clientX - disX + "px";
-            plane.style.top = event.touches[0].clientY - disY + "px";
-        }
-    },
     render: function () {
         return (
-            <div style={this.props.style} id="myPlane" onTouchStart={this.drag}></div>
+            <div ref="myPlane" style={this.props.style} id="myPlane" onTouchStart={this.props.drag}></div>
         )
     }
 })
 
 
-//敌机,添加相应的class
-var SmallPlane = React.createClass({
-    getDefaultProps: function () {
-        return {
-            style: {
-                height: "60px",
-                width: "50px",
-                backgroundColor: "orange",
-                zIndex: 3,
-                position: "absolute"
-            }
-        }
-    },
-    render: function () {
-        return (
-            <div style={this.props.style} className="small plane"></div>
-        )
-    }
-})
 
 
-var MiddlePlane = React.createClass({
-    getDefaultProps: function () {
-        return {
-            style: {
-                height: "80px",
-                width: "60px",
-                backgroundColor: "blue",
-                zIndex: 2,
-                position: "absolute"
-            }
-        }
-    },
-    render: function () {
-        return (
-            <div style={this.props.style} className="middle plane"></div>
-        )
-    }
-})
-
-var BigPlane = React.createClass({
-    getDefaultProps: function () {
-        return {
-            style: {
-                height: "100px",
-                width: "70px",
-                backgroundColor: "yellow",
-                zIndex: 1,
-                position: "absolute"
-            }
-        }
-    },
-    render: function () {
-        return (
-            <div style={this.props.style} className="Big plane"></div>
-        )
-    }
-})
-
-//添加敌机，将这些模块放进去,（将模块放进一个数组中）
-var planeArry = [];
-var planeNumber = 1;
-var small = <SmallPlane></SmallPlane>,
-    middle = <MiddlePlane></MiddlePlane>,
-    big = <BigPlane></BigPlane>;
-setInterval(function () {
-    if(planeNumber < 10) {
-        planeNumber = Math.floor(lastTime / 1000);
-    }
-    if(planeArry.length < planeNumber) {
-        var kind = Math.ceil(Math.random() * 6);  //1~6
-        if(kind <= 2) {
-            planeArry.push(small);
-            console.log("small")
-        }else if(kind > 2 && kind <= 4) {
-            planeArry.push(middle);
-            console.log("midlle")
-        }else{
-            planeArry.push(big);
-            console.log("big")
-        }
-
-        
-        // console.log(planeArry);
-    }
-}, 1000)    //1000可以修改，改成合适的
-
-
-
-
-//测试，后将data 改为planeArry
-var data = [
-    small,
-    middle,
-    big
-]
-var Enemy = React.createClass({
-    render: function () {
-        return (
-            <div>
-                {
-                    data
-                }
-            </div>
-        )
-    }
-})
-ReactDom.render(
-    <Enemy></Enemy>,
-    document.getElementById("enemy")
-)
-
-
-
-
-
-
-
-
-
-// //添加完后，调用planeMove使飞机运动
-// function planeMove() {
-
-// }
-
-
-
-
-
-//子弹,要能根据n改变子弹数，color改变颜色，speed改变速度，子弹都有一个class， "bullet"
-var Bullet = React.createClass({
-    getDefaultProps: function () {
-        return {
-            style: {
-                backgroundColor: "green",
-                height: "30px",
-                width: "20px",
-                position: "absolute"
-            }
-        }
-    },
-    render: function () {
-        return (
-            <div style={this.props.style} className="bullet"></div>
-        )
-    }
-})
-// //将子弹添加到飞机头部,添加完后调用bulletMove使子弹运动
-// requestAnimationFrame(function () {
-
-// })
-//使子弹移动
-function bulletMove(ele) {
-
-}
 
 // //道具的样子
 // //1.加强子弹
@@ -282,11 +109,146 @@ function bulletMove(ele) {
 
 // }
 
+    
+
+var App = React.createClass({
+    getInitialState: function () {
+        return {
+            move: false,
+        }
+    },
+    //飞机的拖拽方法
+    drag: function (event) {
+        var _selft = this;
+        // console.log(_selft);
+        var event = event || window.event;
+        var plane = document.getElementById("myPlane");
+        var disX = event.touches[0].clientX - plane.offsetLeft - 25,
+            disY = event.touches[0].clientY - plane.offsetTop;
+        
+        plane.addEventListener("touchmove", move);
+        plane.addEventListener("touchend", clear);
 
 
+        //触发点不对，不应该由touchStart来触发
+        function updataBullet() {
+            _selft.setState({
+                 move: true
+            })
+            requestAnimationFrame(updataBullet);
+        }
+        requestAnimationFrame(updataBullet);
 
+        function clear() {
+            plane.removeEventListener("touchmove", move);
+            plane.removeEventListener("touchend", clear);
+        }
+
+        function move(event) {
+            plane.style.left = event.touches[0].clientX - disX + "px";
+            plane.style.top = event.touches[0].clientY - disY + "px";
+            event.preventDefault(); //防止屏幕滑动
+        }
+    },
+    render: function () {
+        return (
+            <div>
+                <MyPlane drag={this.drag}></MyPlane>
+            </div>
+        )
+    }
+})
 
 ReactDom.render(
-    <MyPlane/>,
+    <App/>,
     document.getElementById("wrapper")
 )
+
+
+
+
+//-------------------------------------------------动态操作----------------------
+
+
+//-------------------------------------敌机----------------------
+// 移动
+function planeMove(ele) {
+    var speed = 2;
+    function move() {
+        ele.style.top = ele.offsetTop + speed + "px";
+        if(ele.offsetTop <= window.innerHeight) {
+            requestAnimationFrame(move);
+        }
+        
+    }
+    requestAnimationFrame(move);
+}
+
+//添加敌机
+var enemy = document.getElementById("enemy");
+var planeNumber = 1;
+setInterval(function () {
+    var planeArry = document.getElementsByClassName("plane");
+    if(planeNumber < 5) {
+        planeNumber = Math.floor(lastTime / 1000);
+    }
+    if(planeArry.length < planeNumber) {
+        var kind = Math.ceil(Math.random() * 6);  //1~6
+        if(kind <= 2) {
+            $("<div>").addClass("smallPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - 40)) +"px"}).appendTo(enemy);
+        }else if(kind > 2 && kind <= 4) {
+            if(document.getElementsByClassName("middlePlane").length < 2) {
+                $("<div>").addClass("middlePlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - 50)) +"px"}).appendTo(enemy);
+            }else{
+                $("<div>").addClass("smallPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - 40)) +"px"}).appendTo(enemy);
+            }
+        }else{
+            if(document.getElementsByClassName("bigPlane").length < 1) {
+                $("<div>").addClass("bigPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - 60)) +"px"}).appendTo(enemy);
+            }else{
+                 $("<div>").addClass("smallPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - 40)) +"px"}).appendTo(enemy);
+            }
+            
+        }
+        planeMove(planeArry[planeArry.length - 1])
+
+       if(planeArry[0].offsetTop > 480) {
+            $(planeArry[0]).remove();
+       }
+    }
+}, 1000)    //1000可以修改，改成合适的
+
+
+//----------------子弹----------------------------
+
+//使子弹移动
+function bulletMove(ele) {
+    var speed = 18;
+    function move() {
+        ele.style.top = ele.offsetTop - speed + "px";
+        requestAnimationFrame(move);
+    }
+    requestAnimationFrame(move);
+}
+
+//添加子弹
+var myPlane = $("#myPlane")[0];
+function addBullet() {
+    $("<div>")
+            .addClass("bullet")
+            .css({left: myPlane.offsetLeft + myPlane.offsetWidth / 2 - 5, top: myPlane.offsetTop - 20})
+            .appendTo($("#bulletBox"))
+    var bulletArry = document.getElementsByClassName("bullet");
+    bulletMove(bulletArry[bulletArry.length - 1]);     
+    var i,
+        len = bulletArry.length;
+    for(i = 0; i < len; i++) {
+        if(bulletArry[i]) {
+            if(bulletArry[i].offsetTop < 0) {
+                bulletArry[i].remove();
+            }
+        }
+    }
+}
+
+setInterval(addBullet, 100)
