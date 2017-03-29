@@ -12,27 +12,30 @@
         }
         .bigPlane{
             width: 60px;
-            height: 50px;
+            height: 70px;
             background: yellow;
             z-index: 1;
         }
         .middlePlane{
             width: 50px;
-            height: 40px;
+            height: 60px;
             background: blue;
             z-index: 2;
         }
         .smallPlane{
-            width: 40px;
-            height: 30px;
+            width: 35px;
+            height: 50px;
             background: orange;
             z-index: 3;
         }
         .bullet{
-            width: 10px;
-            height: 20px;
+            width: 5px;
+            height: 10px;
             background: red;
             position: absolute;
+        }
+        .doubleBullet{
+            background: blue;
         }
         .item{
             width: 30px;
@@ -40,15 +43,34 @@
             background: pink;
             position: absolute;
         }
+        .buffBullet{
+            background: pink;
+        }
+        .boom{
+            background: chocolate;
+        }
+
+        .test{
+            height: 30px;
+            width: 30px;
+            position: absolute;
+            background: yellow;
+        }
     </style>
 </head>
-<body>
+<body style="overflow-y:hidden">
     <div id="wrapper"></div>
     <div id="bulletBox"></div>
     <div id="enemy">
         <!--<div class="smallPlane plane"></div>-->
     </div>  
     <div id="itemBox"></div>
+
+    <!--<div class="test a"></div>
+    <div class="test"></div>-->
     <script src="http://localhost:8080/static/index.js"></script>
+
+
+
 </body>
 </html>
