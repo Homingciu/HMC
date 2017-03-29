@@ -11,13 +11,9 @@ var MyPlane = React.createClass({
     getDefaultProps: function () {
         return {
             style: {
-                height: "80px",
-                width: "50px",
-                backgroundColor: "green",
                 position: "absolute",
                 bottom: "0px",
                 left: "50%",
-                marginLeft: "-25px"
             }
         }
     },
@@ -122,7 +118,7 @@ var App = React.createClass({
         
         plane.addEventListener("touchmove", move);
         plane.addEventListener("touchend", clear);
-
+        $(plane).css({marginLeft: 0});
 
         // //触发点不对，不应该由touchStart来触发
         // function updataBullet() {
@@ -142,9 +138,9 @@ var App = React.createClass({
             plane.style.left = event.touches[0].clientX - disX + "px";
             plane.style.top = event.touches[0].clientY - disY + "px";
             if(plane.offsetLeft >= window.innerWidth - plane.offsetWidth) {
-                plane.style.left = window.innerWidth - plane.offsetWidth / 2 + "px";
+                plane.style.left = window.innerWidth - plane.offsetWidth + "px";
             }else if(plane.offsetLeft <= 0) {
-                plane.style.left = 0 + plane.offsetWidth / 2 + "px";
+                plane.style.left = 0 + "px";
             }
             
             if(plane.offsetTop >= window.innerHeight - plane.offsetHeight) {
@@ -228,6 +224,9 @@ function planeMove(ele) {
 }
 
 //添加敌机
+var smallWidth = 57, 
+    middleWidth = 69,
+    bigWidth = 169;
 var enemy = document.getElementById("enemy");
 var planeNumber = 1;
 setInterval(function () {
@@ -238,18 +237,18 @@ setInterval(function () {
     if(planeArry.length < planeNumber) {
         var kind = Math.ceil(Math.random() * 6);  //1~6
         if(kind <= 2) {
-            $("<div>").addClass("smallPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - 40)) +"px"}).appendTo(enemy);
+            $("<div>").addClass("smallPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - smallWidth)) +"px"}).appendTo(enemy);
         }else if(kind > 2 && kind <= 4) {
             if(document.getElementsByClassName("middlePlane").length < 2) {
-                $("<div>").addClass("middlePlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - 50)) +"px"}).appendTo(enemy);
+                $("<div>").addClass("middlePlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - middleWidth)) +"px"}).appendTo(enemy);
             }else{
-                $("<div>").addClass("smallPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - 40)) +"px"}).appendTo(enemy);
+                $("<div>").addClass("smallPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - smallWidth)) +"px"}).appendTo(enemy);
             }
         }else{
             if(document.getElementsByClassName("bigPlane").length < 1) {
-                $("<div>").addClass("bigPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - 60)) +"px"}).appendTo(enemy);
+                $("<div>").addClass("bigPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - bigWidth)) +"px"}).appendTo(enemy);
             }else{
-                 $("<div>").addClass("smallPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - 40)) +"px"}).appendTo(enemy);
+                 $("<div>").addClass("smallPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - smallWidth)) +"px"}).appendTo(enemy);
             }
             
         }
@@ -316,6 +315,10 @@ function itemMove(ele) {
     requestAnimationFrame(move);
 }
 
+
+
+var ufo1Width = 58,
+    ufo2Width = 60;
 function addItem() {
     var item  = document.getElementsByClassName("item");
     if(item) {
@@ -323,14 +326,17 @@ function addItem() {
             var div = $("<div>");
             div
                 .addClass("item")
-                .css({left: Math.floor(Math.random() * (window.innerWidth - 30)) +"px"})
                 .appendTo($("#itemBox"))
 
             //随机出现2种不同的道具    
             if(Math.random() * 10 > 5) {
-                div.addClass("buffBullet");
+                div
+                    .addClass("buffBullet")
+                    .css({left: Math.floor(Math.random() * (window.innerWidth - ufo1Width)) +"px"});
             }else{
-                div.addClass("boom")
+                div
+                    .addClass("boom")
+                    .css({left: Math.floor(Math.random() * (window.innerWidth - ufo2Width)) +"px"})
             }        
             
             itemMove(item[item.length - 1]); 
@@ -446,7 +452,7 @@ function isCrash(oDiv, oDiv2) {
                 $(oDiv2).remove();
             }else if($(oDiv).hasClass("plane")  && oDiv2.className == "myPlane") {
                 window.location.reload();
-                alert("game over");
+                // alert("game over");
             }else if($(oDiv).hasClass("item") && oDiv2.className == "myPlane") {
                 // console.log(1);
                 if($(oDiv).hasClass("buffBullet")) {
@@ -461,6 +467,27 @@ function isCrash(oDiv, oDiv2) {
 }
 
 
+//背景----轮播图
+function bg () {
+    var $bg1 = document.getElementsByClassName('bg1')[0];
+    var $bg2 = document.getElementsByClassName('bg2')[0];
+    var bg1 = 0;
+    var bg2 = 100;
+
+    // $bg1.style.background = 'url(./1.png)';
+    // $bg2.style.background = 'url(./2.png)';
+
+    var time1 = setInterval(function(){
+        bg1 += -0.5;
+        bg2 += -0.5;
+
+        bg1 > -100 ? $bg1.style.top = bg1 + '%' : bg1 = 100;
+        bg2 > -100 ? $bg2.style.top = bg2 + '%' : bg2 = 100;
+
+    },10);
+}
+
+bg();
 
 
 
