@@ -309,6 +309,7 @@ function itemMove(ele) {
     function move() {
         ele.style.top = ele.offsetTop + speed + "px";
         if(ele.offsetTop <= window.innerHeight) {
+            isCrash(ele, myPlane);
             requestAnimationFrame(move);
         }
     }
@@ -386,14 +387,16 @@ function eatBuffBullet() {
 
 
 //假如吃到了道具就触发eatBuffBullet函数；
-eatBuffBullet();
+// eatBuffBullet();
 
 // $("<div>").appendTo($("#test"))
 // $("<div>").appendTo($("#test"))
 
 
 //2.增加炸弹数量
-
+function addBoom() {
+    console.log(1);
+}
 
 
 //用来触发炸弹
@@ -404,45 +407,61 @@ document.onclick = function () {
 
 
 // //判断2个物体有没有撞到(用来判断各种碰撞，捡道具，打中飞机等)
-function isCrash(top, bottom) {
-    if(top && bottom) {
-        if (
-            (top.offsetTop > bottom.offsetTop - 10 && top.offsetLeft < bottom.offsetLeft && top.offsetLeft + top.offsetWidth > bottom.offsetLeft)
-            )  {
-                    
-                    // $(bottom).remove();
-                    top.num ++;
-                    switch(top.className) {
-                        case "smallPlane plane": 
-                            if(top.num > 1) {
-                                $(top).remove();
-                            }
-                            break;
-                        case "middlePlane plane": 
-                            if(top.num > 6) {
-                                $(top).remove();
-                            }
-                            break;
-                        case "bigPlane plane": 
-                            if(top.num > 10) {
-                                $(top).remove();
-                            }
-                            break;                
+function isCrash(oDiv, oDiv2) {
+    if(oDiv && oDiv2) {
+        var t1 = oDiv.offsetTop;  
+        var l1 = oDiv.offsetLeft;  
+        var r1 = oDiv.offsetLeft + oDiv.offsetWidth;  
+        var b1 = oDiv.offsetTop + oDiv.offsetHeight;  
+
+        var t2 = oDiv2.offsetTop;  
+        var l2 = oDiv2.offsetLeft;  
+        var r2 = oDiv2.offsetLeft + oDiv2.offsetWidth;  
+        var b2 = oDiv2.offsetTop + oDiv2.offsetHeight;  
+        if(b1<t2 || l1>r2 || t1>b2 || r1<l2){// 表示没碰上  
+
+        }else{  
+            oDiv.num ++;
+            switch(oDiv.className) {
+                case "smallPlane plane": 
+                    if(oDiv.num > 1) {
+                        $(oDiv).remove();
                     }
-                    if(bottom.className == "bullet" || bottom.className == "bullet doubleBullet") {
-                        $(bottom).remove();
-                    }else if(bottom.className == "myPlane" ) {
-                        window.location.reload();   //刷新页面
-                        alert("game over");
+                    break;
+                case "middlePlane plane": 
+                    if(oDiv.num > 6) {
+                        $(oDiv).remove();
                     }
+                    break;
+                case "bigPlane plane": 
+                    if(oDiv.num > 10) {
+                        $(oDiv).remove();
+                    }
+                    break;  
+                case "item": 
+                    console.log(1);
+                break;                      
             }
+            if(oDiv2.className == "bullet" || oDiv2.className == "bullet doubleBullet") {
+                $(oDiv2).remove();
+            }else if($(oDiv).hasClass("plane")  && oDiv2.className == "myPlane") {
+                window.location.reload();
+                alert("game over");
+            }else if($(oDiv).hasClass("item") && oDiv2.className == "myPlane") {
+                // console.log(1);
+                if($(oDiv).hasClass("buffBullet")) {
+                    eatBuffBullet();
+                }else {
+                    addBoom();
+                }
+                $(oDiv).remove();
+            }
+        } 
     }
 }
 
 
 
-//测试碰撞
-// var test = document.getElementsByClassName("test");
-// test[1].style.top = "20px";
-// test[1].style.left = "20px";
-// isCrash(test[0], test[1]);
+
+
+            
