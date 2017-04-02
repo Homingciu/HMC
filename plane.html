@@ -98,6 +98,19 @@
             position: absolute;
             background: yellow;
         }
+
+
+        @font-face{
+            font-family:myFirstFont;
+            src:url('./src/font/13pxbus.ttf'),
+            url('./src/font/13pxbus.eot');
+        }
+        #score{
+            font-family: myFirstFont;
+        }
+        #bomb2{
+            font-family: myFirstFont;
+        }
     </style>
 </head>
 <body style="overflow-y:hidden">
@@ -110,6 +123,19 @@
 
     <div class="bg1"></div>
     <div class="bg2"></div>
+
+    <audio id="bullet_music" src="./src/sound/bullet.mp3"  preload="auto" loop></audio>
+    <audio id="enemy1_music" src="./src/sound/enemy1_down.mp3"  preload="auto" ></audio>
+    <audio id="enemy2_music" src="./src/sound/enemy2_down.mp3"  preload="auto" ></audio>
+    <audio id="enemy3_music" src="./src/sound/enemy3_down.mp3"  preload="auto" ></audio>
+    <audio id="user_music" src="./src/sound/use_bomb.mp3"  preload="auto" ></audio>
+    <audio id="bomb_music" src="./src/sound/get_bomb.mp3"  preload="auto"></audio>
+    <audio id="double_music" src="./src/sound/get_double_laser.mp3"  preload="auto"></audio>
+
+
+    
+
+
     <script src="http://localhost:8080/static/index.js"></script>
 
 

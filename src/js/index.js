@@ -25,79 +25,178 @@ var MyPlane = React.createClass({
 })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// //道具的样子
-// //1.加强子弹
-// var BulletBuff = React.createClass({
-
-// })
-
-// //2.炸弹
-// var AddBomb = React.createClass({
-
-// })
-
-// //随机把这2种道具添加到游戏中
-// setInterval(function () {
-
-// }, 1000)
-
-
-
-
-
-// //系统
-// //计分板
-// var Score = React.createClass({
-
-// })
+var Score = React.createClass({
+    getDefaultProps: function () {
+        return {
+            style: {
+                position: "absolute",
+                top: "25px",
+                left: "50%",
+                height: "30px",
+                width: "250px",
+                marginLeft: "-100px",
+                // backgroundColor: "#999",
+                fontSize: "30px",
+                textAlign: "center",
+                letterSpacing: '4px'
+            }
+        }
+    },   
+    render: function () {
+        return (
+            <div id="score" style={this.props.style}></div>
+        )
+    }
+})
 
 // //炸弹计数器
-// var Bomb = React.createClass({
-
-// })
+var Bomb = React.createClass({
+    getDefaultProps: function () {
+        return {
+            style: {
+                position: "absolute",
+                bottom: "5px",
+                left: "5px",
+                height: "57px",
+                width: "63px",
+                backgroundImage: "url('./src/img/bomb.png')",
+            },
+            style1: {
+                position: "absolute",
+                bottom: "10px",
+                left: "80px",
+                height: "30px",
+                width: "70px",
+                // backgroundColor: "#999",
+                fontSize: "30px",
+                textAlign:'center',
+                letterSpacing: '12px'
+            }
+        }
+    },   
+    render: function () {
+        return (
+            <div>
+                <div id="bomb1" style={this.props.style}></div>
+                <div id="bomb2" style={this.props.style1}></div>
+            </div>
+        )
+    }
+})
 
 // //暂停按钮
-// var Pause = React.createClass({
-
-// })
+var Pause = React.createClass({
+    getInitialState: function () {
+        return {
+            pause: false
+        }
+    },
+    getDefaultProps: function () {
+        return {
+            style: {
+                height: "45px",
+                width: "60px",
+                backgroundImage: "url('./src/img/game_pause_nor.png')",
+                position: "absolute",
+                top: "20px",
+                left: "20px",
+                zIndex: 5
+            }
+        }
+    },
+    onPauseChange: function () {
+        this.props.onPause();
+        this.setState({
+            pause: !this.state.pause
+        })
+        itemMoveSpeed = 0;
+        planeMoveSpeed = 0;
+        bulletMoveSpeed = 0;
+        clearInterval(bgTimer);
+        bullet_music.pause();
+        pauseKey = true;
+    },
+    changePause: function () {
+        this.props.onPause();
+        this.setState({
+            pause: !this.state.pause
+        })
+    },
+    render: function () {
+        return (
+            <div>
+                <div id="pause" style={this.props.style} onClick={this.onPauseChange}></div>
+                <Score></Score>
+                <Info pauseFlag={this.state.pause} changePause={this.changePause}></Info>
+                <Bomb></Bomb>
+            </div>
+        )
+    }
+});
 
 // //暂停后的弹窗
-// var Info = React.createClass({
+var Info = React.createClass({
+    getDefaultProps: function () {
+        return {
+            style: {
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                transform: 'translateX(-50%) translateY(-50%)',
+                display: 'block',
+                width: '150px',
+                height: '150px',
+                display: 'none',
+                zIndex: 5
+            },
+            style1: {
+                width: '150px',
+                borderRadius: '35px',
+                height: '30px',
+                background: '#ddd',
+                border:'3px solid #777',
+                marginBottom: '3px',
+                color: '#777',
+                textAlign: 'center',
+                lineHeight: '30px',
+                fontWeight: 'bolder',
+                fontFamily: 'arial',
+                zIndex: 5
+            }
+        }
+    },
+    continue: function () {
+        itemMoveSpeed = 4;
+        planeMoveSpeed = 2;
+        bulletMoveSpeed = 10;
+        bg();
+        bullet_music.play();
+        this.props.changePause();
+        pauseKey = false;
+        requestAnimationFrame(addTime)
+    },
+    reStart: function () {
+        window.location.reload();
+    },
+    render: function() {
+        var style = Object.assign({}, this.props.style);
+        if(this.props.pauseFlag) {
+            style.display = "block";
+        }else {
+            style.display = "none";
+        }
+        return (
+            <div ref="info" style={style}>
+                <div style={this.props.style1} onClick={this.continue}>继续</div>
+                <div style={this.props.style1} onClick={this.reStart}>重新开始</div>
+                <div style={this.props.style1}>提交分数</div>
+            </div>
+        )
+    }
+})
 
-// })
 
 
-
-
-
-
-
-
-
-
-
-
-// //判断2个物体有没有撞到(用来判断各种碰撞，捡道具，打中飞机等)
-// function isCrash(A, B) {
-
-// }
 
     
 
@@ -105,12 +204,12 @@ var App = React.createClass({
     getInitialState: function () {
         return {
             move: false,
+            pause: false
         }
     },
     //飞机的拖拽方法
     drag: function (event) {
         var _selft = this;
-        // console.log(_selft);
         var event = event || window.event;
         var plane = document.getElementById("myPlane");
         var disX = event.touches[0].clientX - plane.offsetLeft - 25,
@@ -120,14 +219,6 @@ var App = React.createClass({
         plane.addEventListener("touchend", clear);
         $(plane).css({marginLeft: 0});
 
-        // //触发点不对，不应该由touchStart来触发
-        // function updataBullet() {
-        //     _selft.setState({
-        //          move: true
-        //     })
-        //     requestAnimationFrame(updataBullet);
-        // }
-        // requestAnimationFrame(updataBullet);
 
         function clear() {
             plane.removeEventListener("touchmove", move);
@@ -152,10 +243,17 @@ var App = React.createClass({
             event.preventDefault(); //防止屏幕滑动
         }
     },
+    onPause: function () {
+        this.setState({
+            pause: !this.state.pause
+        })
+        console.log(this.state.pause);
+    },
     render: function () {
         return (
             <div>
-                <MyPlane drag={this.drag}></MyPlane>
+                <Pause onPause={this.onPause}></Pause>
+                <MyPlane drag={!this.state.pause ? this.drag : ""}></MyPlane>
             </div>
         )
     }
@@ -166,8 +264,10 @@ ReactDom.render(
     document.getElementById("wrapper")
 )
 
-
-
+var scoreNum = "000000000000";
+score.innerHTML = scoreNum;
+var bomb2Num = "X00";
+bomb2.innerHTML = bomb2Num;
 
 //-------------------------------------------------动态操作----------------------
 
@@ -176,8 +276,8 @@ var startKey = true;
 var pauseKey = false;
 var startTime;
 var lastTime;
-
-function add() {
+var count = 1;
+function addTime() {
     if(startKey) {
         startTime = Date.now();
         startKey = false;
@@ -186,18 +286,23 @@ function add() {
         lastTime = endTime - startTime;
         // console.log(lastTime);
     }
-    if(!pauseKey) {
-        requestAnimationFrame(add);
+    if(lastTime - (25000 * count) > 0) {
+        count++;
+        addItem();
     }
-    
+
+    if(!pauseKey) {
+        // console.log(lastTime);
+        requestAnimationFrame(addTime);
+    }
 }
-requestAnimationFrame(add);
+requestAnimationFrame(addTime);
 
 
 //-------------------------------------敌机----------------------
 // 移动
+var planeMoveSpeed = 2;
 function planeMove(ele) {
-    var speed = 2;
     function move() {
         //判断有没有中子弹
         if(!(ele.num >= 0)) {
@@ -213,7 +318,7 @@ function planeMove(ele) {
         isCrash(ele, myPlane);
 
         //---------------------------移动------------------------------
-        ele.style.top = ele.offsetTop + speed + "px";
+        ele.style.top = ele.offsetTop + planeMoveSpeed + "px";
         if(ele.offsetTop <= window.innerHeight) {
             requestAnimationFrame(move);
         }
@@ -227,6 +332,9 @@ function planeMove(ele) {
 var smallWidth = 57, 
     middleWidth = 69,
     bigWidth = 169;
+var smallHeight = 43,
+    middleHeight = 99,
+    bigHeight= 258;    
 var enemy = document.getElementById("enemy");
 var planeNumber = 1;
 setInterval(function () {
@@ -237,18 +345,18 @@ setInterval(function () {
     if(planeArry.length < planeNumber) {
         var kind = Math.ceil(Math.random() * 6);  //1~6
         if(kind <= 2) {
-            $("<div>").addClass("smallPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - smallWidth)) +"px"}).appendTo(enemy);
+            $("<div>").addClass("smallPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - smallWidth)) +"px", top: -smallHeight + "px"}).appendTo(enemy);
         }else if(kind > 2 && kind <= 4) {
             if(document.getElementsByClassName("middlePlane").length < 2) {
-                $("<div>").addClass("middlePlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - middleWidth)) +"px"}).appendTo(enemy);
+                $("<div>").addClass("middlePlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - middleWidth)) +"px", top: -middleHeight + "px"}).appendTo(enemy);
             }else{
-                $("<div>").addClass("smallPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - smallWidth)) +"px"}).appendTo(enemy);
+                $("<div>").addClass("smallPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - smallWidth)) +"px", top: -smallHeight + "px"}).appendTo(enemy);
             }
         }else{
             if(document.getElementsByClassName("bigPlane").length < 1) {
-                $("<div>").addClass("bigPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - bigWidth)) +"px"}).appendTo(enemy);
+                $("<div>").addClass("bigPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - bigWidth)) +"px", top: -bigHeight + "px"}).appendTo(enemy);
             }else{
-                 $("<div>").addClass("smallPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - smallWidth)) +"px"}).appendTo(enemy);
+                 $("<div>").addClass("smallPlane plane").css({left: Math.floor(Math.random() * (window.innerWidth - smallWidth)) +"px", top: -smallHeight + "px"}).appendTo(enemy);
             }
             
         }
@@ -266,10 +374,11 @@ setInterval(function () {
 //----------------子弹----------------------------
 
 //使子弹移动
+var bulletMoveSpeed = 10;
 function bulletMove(ele) {
-    var speed = 10;
+    // var speed = 10;
     function move() {
-        ele.style.top = ele.offsetTop - speed + "px";
+        ele.style.top = ele.offsetTop - bulletMoveSpeed+ "px";
         requestAnimationFrame(move);
     }
     requestAnimationFrame(move);
@@ -302,11 +411,10 @@ var bulletTimer = setInterval(addBullet, 200);
 // setInterval(function () {
 //     console.log(lastTime);
 // }, 200) 
-
+var itemMoveSpeed = 4;
 function itemMove(ele) {
-    var speed = 4;
     function move() {
-        ele.style.top = ele.offsetTop + speed + "px";
+        ele.style.top = ele.offsetTop + itemMoveSpeed + "px";
         if(ele.offsetTop <= window.innerHeight) {
             isCrash(ele, myPlane);
             requestAnimationFrame(move);
@@ -349,7 +457,7 @@ function addItem() {
     }
        
 }
-setInterval(addItem, 1000)
+// setInterval(addItem, 25000)
 
 
 
@@ -361,12 +469,12 @@ function doubleBullet() {
     //左边子弹
     $("<div>")
             .addClass("bullet doubleBullet")
-            .css({left: myPlane.offsetLeft + myPlane.offsetWidth / 2 - 20, top: myPlane.offsetTop})
+            .css({left: myPlane.offsetLeft + myPlane.offsetWidth / 2 - 15, top: myPlane.offsetTop})
             .appendTo($("#bulletBox"))
     //右边子弹        
     $("<div>")
             .addClass("bullet doubleBullet")
-            .css({left: myPlane.offsetLeft + myPlane.offsetWidth / 2 + 10, top: myPlane.offsetTop})
+            .css({left: myPlane.offsetLeft + myPlane.offsetWidth / 2 + 15, top: myPlane.offsetTop})
             .appendTo($("#bulletBox"))        
     var bulletArry = document.getElementsByClassName("bullet");
     bulletMove(bulletArry[bulletArry.length - 2]); 
@@ -388,7 +496,7 @@ function eatBuffBullet() {
     setTimeout(function ()  {
         clearInterval(doubleBulletTimer);
         bulletTimer = setInterval(addBullet, 200);
-    }, 2000) 
+    }, 19000) 
 }
 
 
@@ -401,14 +509,51 @@ function eatBuffBullet() {
 
 //2.增加炸弹数量
 function addBoom() {
-    console.log(1);
+    var arr1 = bomb2Num.split("");
+    arr1[2] = parseInt(arr1[2]) + 1;
+        if (parseInt(arr1[2]) == 10) {
+            arr1[1] = parseInt(arr1[1]) + 1;
+            arr1[2] = 0;
+        }
+    bomb2Num = arr1.join('');
+    bomb2.innerHTML = bomb2Num;
 }
 
 
 //用来触发炸弹
 document.onclick = function () {
     //如果炸弹数＞1，就触发
-    $("#enemy").empty();
+    var arr2 = bomb2Num.split("")
+    if (parseInt(arr2[2]) > 0 || parseInt(arr2[1]) > 0) {
+       
+        var smallPlane = document.getElementsByClassName("smallPlane");
+        var middlePlane = document.getElementsByClassName("middlePlane");
+        var bigPlane = document.getElementsByClassName("bigPlane");
+        console.log(smallPlane);
+        console.log(middlePlane);
+        console.log(bigPlane);
+        var i;
+        for(i = 0; i < smallPlane.length; i++) {
+            smallPlaneBomb(smallPlane[i]);
+        }
+        for(i = 0; i < middlePlane.length; i++) {
+            middlePlaneBomb(middlePlane[i]);
+        }
+        for(i = 0; i < bigPlane.length; i++) {
+            bigPlaneBomb(bigPlane[i]);
+        }
+        // smallPlaneBomb();
+        // middlePlaneBomb();
+        // bigPlaneBomb();
+        if (parseInt(arr2[2]) == 0) {
+            arr2[1] = parseInt(arr2[1]) - 1;
+            arr2[2] = 9;
+        }
+        arr2[2] = parseInt(arr2[2]) - 1;
+
+        bomb2Num = arr2.join('');
+        bomb2.innerHTML = bomb2Num;
+    }
 }
 
 
@@ -427,37 +572,88 @@ function isCrash(oDiv, oDiv2) {
         if(b1<t2 || l1>r2 || t1>b2 || r1<l2){// 表示没碰上  
 
         }else{  
+            var arr = scoreNum.split("");
+            arr[9] = parseInt(arr[9]) + 1;
+            for (var i = 9; i > 0; i --) {
+                if (parseInt(arr[i]) == 10) {
+                    arr[i - 1] = parseInt(arr[i - 1]) + 1;
+                    arr[i] = 0;
+                }
+            }
+            scoreNum = arr.join('');
+            score.innerHTML = scoreNum;
             oDiv.num ++;
             switch(oDiv.className) {
                 case "smallPlane plane": 
                     if(oDiv.num > 1) {
-                        $(oDiv).remove();
+                        // $(oDiv).remove();
+                        smallPlaneBomb(oDiv);
                     }
                     break;
                 case "middlePlane plane": 
-                    if(oDiv.num > 6) {
-                        $(oDiv).remove();
+                    if(oDiv.num > 10) {
+                        middlePlaneBomb(oDiv);
                     }
                     break;
                 case "bigPlane plane": 
-                    if(oDiv.num > 10) {
-                        $(oDiv).remove();
+                    if(oDiv.num == 9) {
+                        $(oDiv).css({background: "url('./src/img/enemy3_hit.png')"});
                     }
-                    break;  
-                case "item": 
-                    console.log(1);
-                break;                      
+                    if(oDiv.num > 15) {
+                        bigPlaneBomb(oDiv);
+                    }
+                    break;                  
             }
             if(oDiv2.className == "bullet" || oDiv2.className == "bullet doubleBullet") {
                 $(oDiv2).remove();
             }else if($(oDiv).hasClass("plane")  && oDiv2.className == "myPlane") {
-                window.location.reload();
+                // window.location.reload();
                 // alert("game over");
+                var num = 0;
+                function die() {
+                    switch (num) {
+                        case 0:
+                            $(oDiv2).css({background: "url('./src/img/hero_blowup_n1.png')"});
+                            num ++;
+                            var user_music = document.getElementById("user_music");
+                                user_music.play();
+                            break;
+                        case 1:
+                            $(oDiv2).css({background: "url('./src/img/hero_blowup_n2.png')"});
+                            num ++;
+                            break;
+                        case 2:
+                            $(oDiv2).css({background: "url('./src/img/hero_blowup_n3.png')"});
+                            num ++;
+                            break;
+                        case 3:
+                            $(oDiv2).css({background: "url('./src/img/hero_blowup_n4.png')"});
+                            num ++;
+                            break;     
+                        case 4:
+                            $(oDiv2).remove();
+                            clearInterval(dieTimer);
+                            // alert("game over");
+                            window.location.reload();
+                            // alert(0);
+                            break;            
+                    }
+                }
+                var dieTimer = setInterval(die, 100); 
+
+
+
+
+
             }else if($(oDiv).hasClass("item") && oDiv2.className == "myPlane") {
                 // console.log(1);
                 if($(oDiv).hasClass("buffBullet")) {
+                    var double_music = document.getElementById("double_music");
+                    double_music.play();
                     eatBuffBullet();
                 }else {
+                    var bomb_music = document.getElementById("bomb_music");
+                    bomb_music.play();
                     addBoom();
                 }
                 $(oDiv).remove();
@@ -468,6 +664,7 @@ function isCrash(oDiv, oDiv2) {
 
 
 //背景----轮播图
+var bgTimer;
 function bg () {
     var $bg1 = document.getElementsByClassName('bg1')[0];
     var $bg2 = document.getElementsByClassName('bg2')[0];
@@ -477,7 +674,7 @@ function bg () {
     // $bg1.style.background = 'url(./1.png)';
     // $bg2.style.background = 'url(./2.png)';
 
-    var time1 = setInterval(function(){
+    bgTimer = setInterval(function(){
         bg1 += -0.5;
         bg2 += -0.5;
 
@@ -491,4 +688,112 @@ bg();
 
 
 
-            
+
+var bullet_music = document.getElementById("bullet_music");
+bullet_music.play();           
+
+
+
+//------------------敌机爆炸------------------------
+function bigPlaneBomb(oDiv) {
+    var num = 0;
+    function die() {
+        switch (num) {
+            case 0:
+                $(oDiv).css({background: "url('./src/img/enemy3_down1.png')"});
+                num ++;
+                var enemy3_music = document.getElementById("enemy3_music");
+                enemy3_music.play();
+                break;
+            case 1:
+                $(oDiv).css({background: "url('./src/img/enemy3_down2.png')"});
+                num ++;
+                break;
+            case 2:
+                $(oDiv).css({background: "url('./src/img/enemy3_down3.png')"});
+                num ++;
+                break;
+            case 3:
+                $(oDiv).css({background: "url('./src/img/enemy3_down4.png')"});
+                num ++;
+                break;
+            case 4:
+                $(oDiv).css({background: "url('./src/img/enemy3_down5.png')"});
+                num ++;
+                break;
+            case 5:
+                $(oDiv).css({background: "url('./src/img/enemy3_down6.png')"});
+                num ++;
+                break;               
+            case 6:
+                $(oDiv).remove();
+                clearInterval(dieTimer);
+                break;            
+        }
+    }
+    var dieTimer = setInterval(die, 150);
+}
+
+function middlePlaneBomb(oDiv) {
+    var num = 0;
+    function die() {
+        switch (num) {
+            case 0:
+                $(oDiv).css({background: "url('./src/img/enemy2_down1.png')"});
+                num ++;
+                var enemy2_music = document.getElementById("enemy2_music");
+                enemy2_music.play();
+                break;
+            case 1:
+                $(oDiv).css({background: "url('./src/img/enemy2_down2.png')"});
+                num ++;
+                break;
+            case 2:
+                $(oDiv).css({background: "url('./src/img/enemy2_down3.png')"});
+                num ++;
+                break;
+            case 3:
+                $(oDiv).css({background: "url('./src/img/enemy2_down4.png')"});
+                num ++;
+                break;     
+            case 4:
+                $(oDiv).remove();
+                clearInterval(dieTimer);
+                break;            
+        }
+    }
+    var dieTimer = setInterval(die, 100);
+}
+
+
+
+function smallPlaneBomb(oDiv) {
+    var num = 0;
+    function die() {
+        switch (num) {
+            case 0:
+                $(oDiv).css({background: "url('./src/img/enemy1_down1.png')"});
+                num ++;
+                var enemy1_music = document.getElementById("enemy1_music");
+                enemy1_music.play();
+                break;
+            case 1:
+                $(oDiv).css({background: "url('./src/img/enemy1_down2.png')"});
+                num ++;
+                break;
+            case 2:
+                $(oDiv).css({background: "url('./src/img/enemy1_down3.png')"});
+                num ++;
+                break;
+            case 3:
+                $(oDiv).css({background: "url('./src/img/enemy1_down4.png')"});
+                num ++;
+                break;     
+            case 4:
+                $(oDiv).remove();
+                clearInterval(dieTimer);
+                break;            
+        }
+    }
+    var dieTimer = setInterval(die, 100);
+}
