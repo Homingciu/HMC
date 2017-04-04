@@ -704,7 +704,12 @@ bullet_music.play();
 
 function stop(){
     document.body.style.overflow='hidden';        
-    document.addEventListener("touchmove",mo,false);//禁止页面滑动
+    document.addEventListener("touchmove",function (e) {
+        e.preventDefault();
+    },false);//禁止页面滑动
+    document.addEventListener("touchstart",function (e) {
+        e.preventDefault();
+    },false);//禁止页面滑动
 }
 
 stop();
