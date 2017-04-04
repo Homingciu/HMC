@@ -696,6 +696,11 @@ bullet_music.play();
 
 doucment.addEventListener("touchmove", function (event) {
     event.preventDefault();
+    console.log(1);
+})
+doucment.addEventListener("touchstart", function (event) {
+    event.preventDefault();
+    console.log(2);
 })
 
 
