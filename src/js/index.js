@@ -702,7 +702,9 @@ document.addEventListener("touchstart", function (event) {
     event.preventDefault();
     console.log(2); 
 })
-
+document.addEventListener("click", function () {
+    console.log(3);
+})
 
 
 
