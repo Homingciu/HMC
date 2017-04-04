@@ -694,17 +694,11 @@ bullet_music.play();
 
 
 
-document.addEventListener("touchmove", function (event) {
-    event.preventDefault();
+document.addEventListener("touchmove",function(e){
     console.log(1);
-})
-document.addEventListener("touchstart", function (event) {
-    event.preventDefault();
-    console.log(2); 
-})
-document.addEventListener("click", function () {
-    console.log(3);
-})
+    e.preventDefault();
+    e.stopPropagation();
+},false);
 
 
 
