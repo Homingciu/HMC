@@ -523,6 +523,7 @@ function addBoom() {
 //用来触发炸弹
 document.onclick = function () {
     //如果炸弹数＞1，就触发
+    console.log(2);
     var arr2 = bomb2Num.split("")
     if (parseInt(arr2[2]) > 0 || parseInt(arr2[1]) > 0) {
        
