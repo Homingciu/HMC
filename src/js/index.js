@@ -247,7 +247,7 @@ var App = React.createClass({
         this.setState({
             pause: !this.state.pause
         })
-        console.log(this.state.pause);
+        // console.log(this.state.pause);
     },
     render: function () {
         return (
@@ -426,7 +426,9 @@ function itemMove(ele) {
 
 
 var ufo1Width = 58,
-    ufo2Width = 60;
+    ufo1Height = 88,
+    ufo2Width = 60,
+    ufo2Height = 107;
 function addItem() {
     var item  = document.getElementsByClassName("item");
     if(item) {
@@ -440,11 +442,11 @@ function addItem() {
             if(Math.random() * 10 > 5) {
                 div
                     .addClass("buffBullet")
-                    .css({left: Math.floor(Math.random() * (window.innerWidth - ufo1Width)) +"px"});
+                    .css({left: Math.floor(Math.random() * (window.innerWidth - ufo1Width)) +"px", top: -ufo1Height + "px"});
             }else{
                 div
                     .addClass("boom")
-                    .css({left: Math.floor(Math.random() * (window.innerWidth - ufo2Width)) +"px"})
+                    .css({left: Math.floor(Math.random() * (window.innerWidth - ufo2Width)) +"px", top: -ufo2Height + "px"})
             }        
             
             itemMove(item[item.length - 1]); 
@@ -523,16 +525,15 @@ function addBoom() {
 //用来触发炸弹
 document.onclick = function () {
     //如果炸弹数＞1，就触发
-    console.log(2);
     var arr2 = bomb2Num.split("")
     if (parseInt(arr2[2]) > 0 || parseInt(arr2[1]) > 0) {
        
         var smallPlane = document.getElementsByClassName("smallPlane");
         var middlePlane = document.getElementsByClassName("middlePlane");
         var bigPlane = document.getElementsByClassName("bigPlane");
-        console.log(smallPlane);
-        console.log(middlePlane);
-        console.log(bigPlane);
+        // console.log(smallPlane);
+        // console.log(middlePlane);
+        // console.log(bigPlane);
         var i;
         for(i = 0; i < smallPlane.length; i++) {
             smallPlaneBomb(smallPlane[i]);
@@ -695,15 +696,18 @@ bullet_music.play();
 
 
 
-document.addEventListener("touchmove",function(e){
-    console.log(1);
-    e.preventDefault();
-    e.stopPropagation();
-},false);
+// document.addEventListener("touchmove",function(e){
+//     e.preventDefault();
+//     e.stopPropagation();
+// },false);
 
 
+function stop(){
+    document.body.style.overflow='hidden';        
+    document.addEventListener("touchmove",mo,false);//禁止页面滑动
+}
 
-
+stop();
 
 
 
