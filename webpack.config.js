@@ -4,7 +4,7 @@ module.exports = {
     entry: "./src/js/index.js",
     output: {
         path: "./static/",
-        publicPath: "https://homingciu.github.io/HMC/",
+        publicPath: "https://homingciu.github.io/HMC/static/",
         filename: "index.js"
     },
     module: {
