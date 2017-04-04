@@ -694,6 +694,24 @@ bullet_music.play();
 
 
 
+doucment.addEventListener("touchmove", function (event) {
+    event.preventDefault();
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //------------------敌机爆炸------------------------
 function bigPlaneBomb(oDiv) {
     var num = 0;
