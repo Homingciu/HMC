@@ -270,7 +270,7 @@ var bomb2Num = "X00";
 bomb2.innerHTML = bomb2Num;
 
 //-------------------------------------------------动态操作----------------------
-
+$("body").unbind();
 //公共的计时器,把计算出来的lastTime放到全局中
 var startKey = true;
 var pauseKey = false;
@@ -523,7 +523,8 @@ function addBoom() {
 
 
 //用来触发炸弹
-document.onclick = function () {
+var bomb = function (e) {
+    e.stopPropagation(); //阻止冒泡
     //如果炸弹数＞1，就触发
     var arr2 = bomb2Num.split("")
     if (parseInt(arr2[2]) > 0 || parseInt(arr2[1]) > 0) {
@@ -557,6 +558,12 @@ document.onclick = function () {
         bomb2.innerHTML = bomb2Num;
     }
 }
+$("body").on("touchstart", bomb);
+
+
+
+
+
 
 
 // //判断2个物体有没有撞到(用来判断各种碰撞，捡道具，打中飞机等)
@@ -818,5 +825,5 @@ function smallPlaneBomb(oDiv) {
 
 
 
-$("body").unbind();
+
 
