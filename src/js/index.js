@@ -524,7 +524,7 @@ function addBoom() {
 
 //用来触发炸弹
 var bomb = function (e) {
-    e.stopPropagation(); //阻止冒泡
+    // e.stopPropagation(); //阻止冒泡
     //如果炸弹数＞1，就触发
     var arr2 = bomb2Num.split("")
     if (parseInt(arr2[2]) > 0 || parseInt(arr2[1]) > 0) {
