@@ -816,21 +816,27 @@ function smallPlaneBomb(oDiv) {
 
 
 
-function stop(){
-    alert(0);
-    document.body.style.overflow='hidden';        
-    document.addEventListener("touchmove",function (e) {
-        e.preventDefault();
-    },false);//禁止页面滑动
-    document.addEventListener("touchstart",function (e) {
-        e.preventDefault();
-    },false);//禁止页面滑动
-}
-
-stop();
+// document.addEventListener("touchmove", function (e) {
+//     console.log(1);
+//     e.preventDefault();
+// },false);//禁止页面滑动
+// document.addEventListener("touchstart", function (e) {
+//     console.log(2);
+//     e.preventDefault();
+// },false);//禁止页面滑动
 
 
-$('body').on('touchmove', function (event) {
-    alert(0);
-    event.preventDefault();
-});
+// $("body").on("touchstart", function () {
+//     console.log(1);
+// })
+
+// $("body").on("touchmove", function () {
+//     console.log(2);
+// })
+
+// document.onclick = function () {
+//     console.log(1);
+// }
+
+$("body").unbind();
+

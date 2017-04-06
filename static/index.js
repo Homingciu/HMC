@@ -32616,11 +32616,6 @@ bullet_music.play();
 // },false);
 
 
-function stop() {
-    document.body.style.overflow = 'hidden';
-    document.addEventListener("touchmove", mo, false); //禁止页面滑动
-}
-
 //------------------敌机爆炸------------------------
 function bigPlaneBomb(oDiv) {
     var num = 0;
@@ -32722,6 +32717,30 @@ function smallPlaneBomb(oDiv) {
     }
     var dieTimer = setInterval(die, 100);
 }
+
+// document.addEventListener("touchmove", function (e) {
+//     console.log(1);
+//     e.preventDefault();
+// },false);//禁止页面滑动
+// document.addEventListener("touchstart", function (e) {
+//     console.log(2);
+//     e.preventDefault();
+// },false);//禁止页面滑动
+
+
+// $("body").on("touchstart", function () {
+//     console.log(1);
+// })
+
+// $("body").on("touchmove", function () {
+//     console.log(2);
+// })
+
+// document.onclick = function () {
+//     console.log(1);
+// }
+
+$("body").unbind();
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(79)))
 
 /***/ })
