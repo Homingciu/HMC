@@ -286,7 +286,7 @@ function addTime() {
         lastTime = endTime - startTime;
         // console.log(lastTime);
     }
-    if(lastTime - (2000 * count) > 0) {
+    if(lastTime - (25000 * count) > 0) {
         count++;
         addItem();
     }
