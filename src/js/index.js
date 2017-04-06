@@ -702,23 +702,7 @@ bullet_music.play();
 // },false);
 
 
-function stop(){
-    document.body.style.overflow='hidden';        
-    document.addEventListener("touchmove",function (e) {
-        e.preventDefault();
-    },false);//禁止页面滑动
-    document.addEventListener("touchstart",function (e) {
-        e.preventDefault();
-    },false);//禁止页面滑动
-}
 
-stop();
-
-
-$('body').on('touchmove', function (event) {
-    alert(0);
-    event.preventDefault();
-});
 
 
 
@@ -829,3 +813,24 @@ function smallPlaneBomb(oDiv) {
     }
     var dieTimer = setInterval(die, 100);
 }
+
+
+
+function stop(){
+    alert(0);
+    document.body.style.overflow='hidden';        
+    document.addEventListener("touchmove",function (e) {
+        e.preventDefault();
+    },false);//禁止页面滑动
+    document.addEventListener("touchstart",function (e) {
+        e.preventDefault();
+    },false);//禁止页面滑动
+}
+
+stop();
+
+
+$('body').on('touchmove', function (event) {
+    alert(0);
+    event.preventDefault();
+});
