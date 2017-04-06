@@ -32238,7 +32238,7 @@ function addTime() {
         lastTime = endTime - startTime;
         // console.log(lastTime);
     }
-    if (lastTime - 25000 * count > 0) {
+    if (lastTime - 2000 * count > 0) {
         count++;
         addItem();
     }
@@ -32350,7 +32350,7 @@ function addBullet() {
     }
 }
 
-var bulletTimer = setInterval(addBullet, 200);
+var bulletTimer = setInterval(addBullet, 120);
 
 //------------------------------------------道具-------------------------
 
@@ -32421,10 +32421,10 @@ function doubleBullet() {
 }
 function eatBuffBullet() {
     clearInterval(bulletTimer);
-    doubleBulletTimer = setInterval(doubleBullet, 200);
+    doubleBulletTimer = setInterval(doubleBullet, 120);
     setTimeout(function () {
         clearInterval(doubleBulletTimer);
-        bulletTimer = setInterval(addBullet, 200);
+        bulletTimer = setInterval(addBullet, 120);
     }, 19000);
 }
 
@@ -32511,13 +32511,13 @@ function isCrash(oDiv, oDiv2) {
             oDiv.num++;
             switch (oDiv.className) {
                 case "smallPlane plane":
-                    if (oDiv.num > 1) {
+                    if (oDiv.num >= 1) {
                         // $(oDiv).remove();
                         smallPlaneBomb(oDiv);
                     }
                     break;
                 case "middlePlane plane":
-                    if (oDiv.num > 10) {
+                    if (oDiv.num >= 10) {
                         middlePlaneBomb(oDiv);
                     }
                     break;
@@ -32525,7 +32525,7 @@ function isCrash(oDiv, oDiv2) {
                     if (oDiv.num == 9) {
                         $(oDiv).css({ background: "url('./src/img/enemy3_hit.png')" });
                     }
-                    if (oDiv.num > 15) {
+                    if (oDiv.num >= 15) {
                         bigPlaneBomb(oDiv);
                     }
                     break;
@@ -32717,28 +32717,6 @@ function smallPlaneBomb(oDiv) {
     }
     var dieTimer = setInterval(die, 100);
 }
-
-// document.addEventListener("touchmove", function (e) {
-//     console.log(1);
-//     e.preventDefault();
-// },false);//禁止页面滑动
-// document.addEventListener("touchstart", function (e) {
-//     console.log(2);
-//     e.preventDefault();
-// },false);//禁止页面滑动
-
-
-// $("body").on("touchstart", function () {
-//     console.log(1);
-// })
-
-// $("body").on("touchmove", function () {
-//     console.log(2);
-// })
-
-// document.onclick = function () {
-//     console.log(1);
-// }
 
 $("body").unbind();
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(79)))

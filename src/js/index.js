@@ -286,7 +286,7 @@ function addTime() {
         lastTime = endTime - startTime;
         // console.log(lastTime);
     }
-    if(lastTime - (200 * count) > 0) {
+    if(lastTime - (2000 * count) > 0) {
         count++;
         addItem();
     }
@@ -404,7 +404,7 @@ function addBullet() {
     }
 }
 
-var bulletTimer = setInterval(addBullet, 200);
+var bulletTimer = setInterval(addBullet, 120);
 
 //------------------------------------------道具-------------------------
 
@@ -494,10 +494,10 @@ function doubleBullet() {
 }
 function eatBuffBullet() {
     clearInterval(bulletTimer);
-    doubleBulletTimer = setInterval(doubleBullet, 200);
+    doubleBulletTimer = setInterval(doubleBullet, 120);
     setTimeout(function ()  {
         clearInterval(doubleBulletTimer);
-        bulletTimer = setInterval(addBullet, 200);
+        bulletTimer = setInterval(addBullet, 120);
     }, 19000) 
 }
 
@@ -587,13 +587,13 @@ function isCrash(oDiv, oDiv2) {
             oDiv.num ++;
             switch(oDiv.className) {
                 case "smallPlane plane": 
-                    if(oDiv.num > 1) {
+                    if(oDiv.num >= 1) {
                         // $(oDiv).remove();
                         smallPlaneBomb(oDiv);
                     }
                     break;
                 case "middlePlane plane": 
-                    if(oDiv.num > 10) {
+                    if(oDiv.num >= 10) {
                         middlePlaneBomb(oDiv);
                     }
                     break;
@@ -601,7 +601,7 @@ function isCrash(oDiv, oDiv2) {
                     if(oDiv.num == 9) {
                         $(oDiv).css({background: "url('./src/img/enemy3_hit.png')"});
                     }
-                    if(oDiv.num > 15) {
+                    if(oDiv.num >= 15) {
                         bigPlaneBomb(oDiv);
                     }
                     break;                  
