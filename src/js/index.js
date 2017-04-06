@@ -286,7 +286,7 @@ function addTime() {
         lastTime = endTime - startTime;
         // console.log(lastTime);
     }
-    if(lastTime - (25000 * count) > 0) {
+    if(lastTime - (200 * count) > 0) {
         count++;
         addItem();
     }
@@ -816,27 +816,7 @@ function smallPlaneBomb(oDiv) {
 
 
 
-// document.addEventListener("touchmove", function (e) {
-//     console.log(1);
-//     e.preventDefault();
-// },false);//禁止页面滑动
-// document.addEventListener("touchstart", function (e) {
-//     console.log(2);
-//     e.preventDefault();
-// },false);//禁止页面滑动
 
-
-// $("body").on("touchstart", function () {
-//     console.log(1);
-// })
-
-// $("body").on("touchmove", function () {
-//     console.log(2);
-// })
-
-// document.onclick = function () {
-//     console.log(1);
-// }
 
 $("body").unbind();
 
