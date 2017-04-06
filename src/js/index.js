@@ -270,7 +270,75 @@ var bomb2Num = "X00";
 bomb2.innerHTML = bomb2Num;
 
 //-------------------------------------------------动态操作----------------------
-$("body").unbind();
+//预加载图片
+function preloadImages(arr) {
+    var newImages = [],
+        loadedImages = 0;
+    var postaction = function () {};    //用来给用户添加回调函数
+    var arr = (typeof arr != "object") ? [arr] : arr;  //确保arr是数组；
+    function imageloadpost() {
+        loadedImages ++;
+        if(loadedImages == arr.length) {
+            postaction(newImages);
+        }
+    }
+    var i,
+        len = arr.length;
+    for(i = 0; i < len; i++) {
+        newImages[i] = new Image();
+        newImages[i].src = arr[i];
+        newImages[i].onload = function () {
+            imageloadpost();
+        }
+        newImages[i].onerror = function () {
+            imageloadpost();
+        }
+    }
+
+    return {
+        done: function (f) {
+            postaction = f || postaction;
+        }
+    }
+}
+
+
+preloadImages([
+    "./src/img/background.png",
+    "./src/img/hero1.png",
+    "./src/img/enemy3_n1.png",
+    "./src/img/enemy2.png",
+    "./src/img/enemy1.png",
+    "./src/img/bullet1.png",
+    "./src/img/bullet2.png",
+    "./src/img/ufo1.png",
+    "./src/img/ufo2.png",
+    './src/img/enemy3_hit.png',
+    './src/img/enemy3_down1.png',
+    './src/img/enemy3_down2.png',
+    './src/img/enemy3_down3.png',
+    './src/img/enemy3_down4.png',
+    './src/img/enemy3_down5.png',
+    './src/img/enemy3_down6.png',
+    './src/img/enemy2_down1.png',
+    './src/img/enemy2_down2.png',
+    './src/img/enemy2_down3.png',
+    './src/img/enemy2_down4.png',
+    './src/img/enemy1_down1.png',
+    './src/img/enemy1_down2.png',
+    './src/img/enemy1_down3.png',
+    './src/img/enemy1_down4.png',
+    './src/img/hero_blowup_n1.png',
+    './src/img/hero_blowup_n2.png',
+    './src/img/hero_blowup_n3.png',
+    './src/img/hero_blowup_n4.png'
+])
+
+
+
+
+
+$("body").unbind();   //禁止微信上的事件
 //公共的计时器,把计算出来的lastTime放到全局中
 var startKey = true;
 var pauseKey = false;
@@ -297,6 +365,10 @@ function addTime() {
     }
 }
 requestAnimationFrame(addTime);
+
+
+
+
 
 
 //-------------------------------------敌机----------------------
@@ -707,8 +779,6 @@ bullet_music.play();
 //     e.preventDefault();
 //     e.stopPropagation();
 // },false);
-
-
 
 
 
