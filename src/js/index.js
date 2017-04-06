@@ -339,6 +339,8 @@ preloadImages([
 
 
 $("body").unbind();   //禁止微信上的事件
+
+
 //公共的计时器,把计算出来的lastTime放到全局中
 var startKey = true;
 var pauseKey = false;
@@ -356,7 +358,7 @@ function addTime() {
     }
     if(lastTime - (25000 * count) > 0) {
         count++;
-        addItem();
+        // addItem();
     }
 
     if(!pauseKey) {
