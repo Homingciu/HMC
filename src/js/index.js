@@ -716,6 +716,7 @@ stop();
 
 
 $('body').on('touchmove', function (event) {
+    alert(0);
     event.preventDefault();
 });
 
