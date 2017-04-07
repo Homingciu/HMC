@@ -32260,7 +32260,7 @@ function preloadImages(arr) {
     };
 }
 
-preloadImages(["./src/img/background.png", "./src/img/hero1.png", "./src/img/enemy3_n1.png", "./src/img/enemy2.png", "./src/img/enemy1.png", "./src/img/bullet1.png", "./src/img/bullet2.png", "./src/img/ufo1.png", "./src/img/ufo2.png", './src/img/enemy3_hit.png', './src/img/enemy3_down1.png', './src/img/enemy3_down2.png', './src/img/enemy3_down3.png', './src/img/enemy3_down4.png', './src/img/enemy3_down5.png', './src/img/enemy3_down6.png', './src/img/enemy2_down1.png', './src/img/enemy2_down2.png', './src/img/enemy2_down3.png', './src/img/enemy2_down4.png', './src/img/enemy1_down1.png', './src/img/enemy1_down2.png', './src/img/enemy1_down3.png', './src/img/enemy1_down4.png', './src/img/hero_blowup_n1.png', './src/img/hero_blowup_n2.png', './src/img/hero_blowup_n3.png', './src/img/hero_blowup_n4.png']);
+preloadImages(["./src/img/background.png", "./src/img/hero1.png", "./src/img/enemy3_n1.png", "./src/img/enemy2.png", "./src/img/enemy1.png", "./src/img/bullet1.png", "./src/img/bullet2.png", "./src/img/ufo1.png", "./src/img/ufo2.png", './src/img/enemy3_hit.png', './src/img/enemy3_down1.png', './src/img/enemy3_down2.png', './src/img/enemy3_down3.png', './src/img/enemy3_down4.png', './src/img/enemy3_down5.png', './src/img/enemy3_down6.png', './src/img/enemy2_down1.png', './src/img/enemy2_down2.png', './src/img/enemy2_down3.png', './src/img/enemy2_down4.png', './src/img/enemy1_down1.png', './src/img/enemy1_down2.png', './src/img/enemy1_down3.png', './src/img/enemy1_down4.png', './src/img/hero_blowup_n1.png', './src/img/hero_blowup_n2.png', './src/img/hero_blowup_n3.png', './src/img/hero_blowup_n4.png', './src/img/enemy3_n2.png', './src/img/hero2.png']);
 
 $("body").unbind(); //禁止微信上的事件
 

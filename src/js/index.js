@@ -335,7 +335,9 @@ preloadImages([
     './src/img/hero_blowup_n1.png',
     './src/img/hero_blowup_n2.png',
     './src/img/hero_blowup_n3.png',
-    './src/img/hero_blowup_n4.png'
+    './src/img/hero_blowup_n4.png',
+    './src/img/enemy3_n2.png',
+    './src/img/hero2.png'
 ])
 
 
@@ -958,5 +960,4 @@ function bigPlaneAnimation() {
 }
 
 var bigPlaneTimer = setInterval(bigPlaneAnimation, 100);
-
 
