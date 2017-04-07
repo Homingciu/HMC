@@ -342,31 +342,31 @@ $("body").unbind();   //禁止微信上的事件
 
 
 //公共的计时器,把计算出来的lastTime放到全局中
-var startKey = true;
-var pauseKey = false;
-var startTime;
-var lastTime;
-var count = 1;
-function addTime() {
-    if(startKey) {
-        startTime = Date.now();
-        startKey = false;
-    }else{
-        var endTime = Date.now();
-        lastTime = endTime - startTime;
-        // console.log(lastTime);
-    }
-    if(lastTime - (25000 * count) > 0) {
-        count++;
-        // addItem();
-    }
+// var startKey = true;
+// var pauseKey = false;
+// var startTime;
+// var lastTime;
+// var count = 1;
+// function addTime() {
+//     if(startKey) {
+//         startTime = Date.now();
+//         startKey = false;
+//     }else{
+//         var endTime = Date.now();
+//         lastTime = endTime - startTime;
+//         // console.log(lastTime);
+//     }
+//     if(lastTime - (25000 * count) > 0) {
+//         count++;
+//         // addItem();
+//     }
 
-    if(!pauseKey) {
-        // console.log(lastTime);
-        requestAnimationFrame(addTime);
-    }
-}
-requestAnimationFrame(addTime);
+//     if(!pauseKey) {
+//         // console.log(lastTime);
+//         requestAnimationFrame(addTime);
+//     }
+// }
+// requestAnimationFrame(addTime);
 
 
 
