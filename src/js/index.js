@@ -947,19 +947,22 @@ var myPlaneTimer = setInterval(myPlaneAnimation, 100);
 
 
 
-var bigPlane_1 = $(".bigPlane").css("backgroundImage");
+
 function bigPlaneAnimation() {
     if($(".bigPlane")) {
-        if($(".bigPlane").css("backgroundImage")  != 'url("https://homingciu.github.io/HMC/src/img/enemy3_hit.png")' && !($(".bigPlane").hasClass("died")) ){
-            if($(".bigPlane").css("backgroundImage")  == 'url("https://homingciu.github.io/HMC/src/img/enenmy3_n1.png")') {
-                $(".bigPlane")
-                        .css({background: 'url("https://homingciu.github.io/HMC/src/img/enenmy3_n2.png")'})
-            }else {
-                $(".bigPlane")
-                        .css({background: 'url("https://homingciu.github.io/HMC/src/img/enenmy3_n1.png")'})
-            }
-        }
+        // if($(".bigPlane").css("backgroundImage")  != 'url("https://homingciu.github.io/HMC/src/img/enemy3_hit.png")' && !($(".bigPlane").hasClass("died")) ){
+        //     if($(".bigPlane").css("backgroundImage")  == 'url("https://homingciu.github.io/HMC/src/img/enenmy3_n1.png")') {
+        //         $(".bigPlane")
+        //                 .css({background: 'url("https://homingciu.github.io/HMC/src/img/enenmy3_n2.png")'})
+        //     }else {
+        //         $(".bigPlane")
+        //                 .css({background: 'url("https://homingciu.github.io/HMC/src/img/enenmy3_n1.png")'})
+        //     }
+        // }
+        var bigPlane_1 = $(".bigPlane").css("backgroundImage");
+        console.log(bigPlane_1);
     }
+    
 }
 
 var bigPlaneTimer = setInterval(bigPlaneAnimation, 100);
