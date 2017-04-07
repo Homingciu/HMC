@@ -115,6 +115,8 @@ var Pause = React.createClass({
         clearInterval(bgTimer);
         bullet_music.pause();
         pauseKey = true;
+        clearInterval(myPlaneTimer);
+        clearInterval(bigPlaneTimer);
     },
     changePause: function () {
         this.props.onPause();
@@ -173,7 +175,9 @@ var Info = React.createClass({
         bullet_music.play();
         this.props.changePause();
         pauseKey = false;
-        requestAnimationFrame(addTime)
+        requestAnimationFrame(addTime);
+        myPlaneTimer = setInterval(myPlaneAnimation, 100);
+        bigPlaneTimer = setInterval(bigPlaneAnimation, 100);
     },
     reStart: function () {
         window.location.reload();
@@ -459,11 +463,13 @@ function bulletMove(ele) {
 }
 
 //添加子弹
+var bulletHeight = 11,
+    bulletWidth = 5;
 var myPlane = $("#myPlane")[0];
 function addBullet() {
     $("<div>")
             .addClass("bullet")
-            .css({left: myPlane.offsetLeft + myPlane.offsetWidth / 2 - 5, top: myPlane.offsetTop})
+            .css({left: myPlane.offsetLeft + myPlane.offsetWidth / 2 - bulletWidth / 2, top: myPlane.offsetTop - bulletHeight})
             .appendTo($("#bulletBox"))
     var bulletArry = document.getElementsByClassName("bullet");
     bulletMove(bulletArry[bulletArry.length - 1]);     
@@ -606,9 +612,6 @@ var bomb = function (e) {
         var smallPlane = document.getElementsByClassName("smallPlane");
         var middlePlane = document.getElementsByClassName("middlePlane");
         var bigPlane = document.getElementsByClassName("bigPlane");
-        // console.log(smallPlane);
-        // console.log(middlePlane);
-        // console.log(bigPlane);
         var i;
         for(i = 0; i < smallPlane.length; i++) {
             smallPlaneBomb(smallPlane[i]);
@@ -619,9 +622,6 @@ var bomb = function (e) {
         for(i = 0; i < bigPlane.length; i++) {
             bigPlaneBomb(bigPlane[i]);
         }
-        // smallPlaneBomb();
-        // middlePlaneBomb();
-        // bigPlaneBomb();
         if (parseInt(arr2[2]) == 0) {
             arr2[1] = parseInt(arr2[1]) - 1;
             arr2[2] = 9;
@@ -655,16 +655,8 @@ function isCrash(oDiv, oDiv2) {
         if(b1<t2 || l1>r2 || t1>b2 || r1<l2){// 表示没碰上  
 
         }else{  
-            var arr = scoreNum.split("");
-            arr[9] = parseInt(arr[9]) + 1;
-            for (var i = 9; i > 0; i --) {
-                if (parseInt(arr[i]) == 10) {
-                    arr[i - 1] = parseInt(arr[i - 1]) + 1;
-                    arr[i] = 0;
-                }
-            }
-            scoreNum = arr.join('');
-            score.innerHTML = scoreNum;
+            
+            
             oDiv.num ++;
             switch(oDiv.className) {
                 case "smallPlane plane": 
@@ -689,9 +681,7 @@ function isCrash(oDiv, oDiv2) {
             }
             if(oDiv2.className == "bullet" || oDiv2.className == "bullet doubleBullet") {
                 $(oDiv2).remove();
-            }else if($(oDiv).hasClass("plane")  && oDiv2.className == "myPlane") {
-                // window.location.reload();
-                // alert("game over");
+            }else if($(oDiv).hasClass("plane") && !($(oDiv).hasClass("died")) && oDiv2.className == "myPlane") {
                 var num = 0;
                 function die() {
                     switch (num) {
@@ -791,14 +781,27 @@ bullet_music.play();
 
 //------------------敌机爆炸------------------------
 function bigPlaneBomb(oDiv) {
+    $(oDiv).addClass("died");
+    var arr = scoreNum.split("");
+    arr[arr.length - 3] = parseInt(arr[arr.length - 3]) + 1;
+    arr[arr.length - 2] = parseInt(arr[arr.length - 2]) + 5;
+    for (var i = arr.length; i > 0; i--) {
+        if (parseInt(arr[i]) >= 10) {
+            arr[i - 1] = parseInt(arr[i - 1]) + 1;
+            arr[i] = parseInt(arr[i]) - 10;
+        }
+    }
+    scoreNum = arr.join('');
+    score.innerHTML = scoreNum;
     var num = 0;
     function die() {
+        
         switch (num) {
             case 0:
                 $(oDiv).css({background: "url('./src/img/enemy3_down1.png')"});
                 num ++;
                 var enemy3_music = document.getElementById("enemy3_music");
-                enemy3_music.play();
+                enemy3_music.play();    
                 break;
             case 1:
                 $(oDiv).css({background: "url('./src/img/enemy3_down2.png')"});
@@ -830,8 +833,20 @@ function bigPlaneBomb(oDiv) {
 }
 
 function middlePlaneBomb(oDiv) {
+    $(oDiv).addClass("died");
+    var arr = scoreNum.split("");
+    arr[arr.length - 2] = parseInt(arr[arr.length - 2]) + 8;
+    for (var i = arr.length; i > 0; i--) {
+        if (parseInt(arr[i]) >= 10) {
+            arr[i - 1] = parseInt(arr[i - 1]) + 1;
+            arr[i] = parseInt(arr[i]) - 10;
+        }
+    }
+    scoreNum = arr.join('');
+    score.innerHTML = scoreNum;
     var num = 0;
     function die() {
+        
         switch (num) {
             case 0:
                 $(oDiv).css({background: "url('./src/img/enemy2_down1.png')"});
@@ -863,8 +878,20 @@ function middlePlaneBomb(oDiv) {
 
 
 function smallPlaneBomb(oDiv) {
+    $(oDiv).addClass("died");
+    var arr = scoreNum.split("");
+    arr[arr.length - 2] = parseInt(arr[arr.length - 2]) + 1;
+    for (var i = arr.length; i > 0; i--) {
+        if (parseInt(arr[i]) >= 10) {
+            arr[i - 1] = parseInt(arr[i - 1]) + 1;
+            arr[i] = parseInt(arr[i]) - 10;
+        }
+    }
+    scoreNum = arr.join('');
+    score.innerHTML = scoreNum;
     var num = 0;
     function die() {
+        
         switch (num) {
             case 0:
                 $(oDiv).css({background: "url('./src/img/enemy1_down1.png')"});
@@ -897,5 +924,39 @@ function smallPlaneBomb(oDiv) {
 
 
 
+
+
+
+
+//myPlane 和 bigPlane的动画
+
+function myPlaneAnimation() {
+    // console.log($("#myPlane").css("backgroundImage")  == 'url("file:///C:/Users/Administrator/Desktop/web/react/src/img/hero1.png")')
+    if($("#myPlane").css("backgroundImage")  == 'url("file:///C:/Users/Administrator/Desktop/web/react/src/img/hero1.png")') {
+        $("#myPlane")
+                .css({background: "url('./src/img/hero2.png')"})
+    }else {
+        $("#myPlane")
+                .css({background: "url('./src/img/hero1.png')"})
+    }
+}
+
+var myPlaneTimer = setInterval(myPlaneAnimation, 100);
+
+function bigPlaneAnimation() {
+    if($(".bigPlane")) {
+        if($(".bigPlane").css("backgroundImage")  != 'url("file:///C:/Users/Administrator/Desktop/web/react/src/img/enemy3_hit.png")' && !($(".bigPlane").hasClass("died")) ){
+            if($(".bigPlane").css("backgroundImage")  == 'url("file:///C:/Users/Administrator/Desktop/web/react/src/img/enemy3_n1.png")') {
+                $(".bigPlane")
+                        .css({background: "url('./src/img/enemy3_n2.png')"})
+            }else {
+                $(".bigPlane")
+                        .css({background: "url('./src/img/enemy3_n1.png')"})
+            }
+        }
+    }
+}
+
+var bigPlaneTimer = setInterval(bigPlaneAnimation, 100);
 
 
