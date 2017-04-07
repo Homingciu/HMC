@@ -931,10 +931,10 @@ function smallPlaneBomb(oDiv) {
 
 
 //myPlane 和 bigPlane的动画
-
+var myPlane_1 = $("#myPlane").css("backgroundImage");
 function myPlaneAnimation() {
     // console.log($("#myPlane").css("backgroundImage")  == 'url("file:///C:/Users/Administrator/Desktop/web/react/src/img/hero1.png")')
-    if($("#myPlane").css("backgroundImage")  == 'url("file:///C:/Users/Administrator/Desktop/web/react/src/img/hero1.png")') {
+    if($("#myPlane").css("backgroundImage")  == myPlane_1) {
         $("#myPlane")
                 .css({background: "url('./src/img/hero2.png')"})
     }else {
@@ -945,6 +945,9 @@ function myPlaneAnimation() {
 
 var myPlaneTimer = setInterval(myPlaneAnimation, 100);
 
+
+
+var bigPlane_1 = $(".bigPlane").css("backgroundImage");
 function bigPlaneAnimation() {
     if($(".bigPlane")) {
         if($(".bigPlane").css("backgroundImage")  != 'url("file:///C:/Users/Administrator/Desktop/web/react/src/img/enemy3_hit.png")' && !($(".bigPlane").hasClass("died")) ){
