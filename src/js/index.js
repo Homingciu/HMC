@@ -962,6 +962,6 @@ function bigPlaneAnimation() {
 var bigPlaneTimer = setInterval(bigPlaneAnimation, 100);
 
 
-if($("#myPlane").css("backgroundImage")  == 'url("file:///C:/Users/Administrator/Desktop/web/react/src/img/hero1.png")') {
-    console.log(1);
+if($("#myPlane").css("backgroundImage")  != 'url("file:///C:/Users/Administrator/Desktop/web/react/src/img/hero1.png")') {
+    console.log($("#myPlane").css("backgroundImage"));
 }
