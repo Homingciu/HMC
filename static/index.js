@@ -32788,10 +32788,10 @@ function smallPlaneBomb(oDiv) {
 var myPlane_1 = $("#myPlane").css("backgroundImage");
 function myPlaneAnimation() {
     // console.log($("#myPlane").css("backgroundImage")  == 'url("file:///C:/Users/Administrator/Desktop/web/react/src/img/hero1.png")')
-    if ($("#myPlane").css("backgroundImage") == myPlane_1) {
-        $("#myPlane").css({ background: "url('./src/img/hero2.png')" });
+    if ($("#myPlane").css("backgroundImage") == 'url("https://homingciu.github.io/HMC/src/img/hero1.png")') {
+        $("#myPlane").css({ background: 'url("https://homingciu.github.io/HMC/src/img/hero2.png")' });
     } else {
-        $("#myPlane").css({ background: "url('./src/img/hero1.png')" });
+        $("#myPlane").css({ background: 'url("https://homingciu.github.io/HMC/src/img/hero1.png")' });
     }
 }
 
@@ -32800,11 +32800,11 @@ var myPlaneTimer = setInterval(myPlaneAnimation, 100);
 var bigPlane_1 = $(".bigPlane").css("backgroundImage");
 function bigPlaneAnimation() {
     if ($(".bigPlane")) {
-        if ($(".bigPlane").css("backgroundImage") != 'url("file:///C:/Users/Administrator/Desktop/web/react/src/img/enemy3_hit.png")' && !$(".bigPlane").hasClass("died")) {
-            if ($(".bigPlane").css("backgroundImage") == 'url("file:///C:/Users/Administrator/Desktop/web/react/src/img/enemy3_n1.png")') {
-                $(".bigPlane").css({ background: "url('./src/img/enemy3_n2.png')" });
+        if ($(".bigPlane").css("backgroundImage") != 'url("https://homingciu.github.io/HMC/src/img/enemy3_hit.png")' && !$(".bigPlane").hasClass("died")) {
+            if ($(".bigPlane").css("backgroundImage") == 'url("https://homingciu.github.io/HMC/src/img/enenmy3_n1.png")') {
+                $(".bigPlane").css({ background: 'url("https://homingciu.github.io/HMC/src/img/enenmy3_n2.png")' });
             } else {
-                $(".bigPlane").css({ background: "url('./src/img/enemy3_n1.png')" });
+                $(".bigPlane").css({ background: 'url("https://homingciu.github.io/HMC/src/img/enenmy3_n1.png")' });
             }
         }
     }
