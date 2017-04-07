@@ -32810,6 +32810,10 @@ function bigPlaneAnimation() {
 }
 
 var bigPlaneTimer = setInterval(bigPlaneAnimation, 100);
+
+if ($("#myPlane").css("backgroundImage") == 'url("file:///C:/Users/Administrator/Desktop/web/react/src/img/hero1.png")') {
+    console.log(1);
+}
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(79)))
 
 /***/ })
