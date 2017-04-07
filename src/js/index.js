@@ -673,9 +673,7 @@ function isCrash(oDiv, oDiv2) {
                     }
                     break;
                 case "bigPlane plane": 
-                    if(oDiv.num == 9) {
-                        $(oDiv).css({background: "url('./src/img/enemy3_hit.png')"});
-                    }
+                    $(oDiv).css({background: "url('./src/img/enemy3_hit.png')"});
                     if(oDiv.num >= 15) {
                         bigPlaneBomb(oDiv);
                     }
@@ -950,7 +948,7 @@ var myPlaneTimer = setInterval(myPlaneAnimation, 100);
 
 function bigPlaneAnimation() {
     if($(".bigPlane")) {
-        if($(".bigPlane").css("backgroundImage")  != 'url("https://homingciu.github.io/HMC/src/img/enemy3_hit.png")' && !($(".bigPlane").hasClass("died")) ){
+        if(  !($(".bigPlane").hasClass("died")) ) {
             if($(".bigPlane").css("backgroundImage")  == 'url("https://homingciu.github.io/HMC/src/img/enemy3_n1.png")') {
                 $(".bigPlane")
                         .css({background: 'url("https://homingciu.github.io/HMC/src/img/enemy3_n2.png")'})
@@ -959,8 +957,6 @@ function bigPlaneAnimation() {
                         .css({background: 'url("https://homingciu.github.io/HMC/src/img/enemy3_n1.png")'})
             }
         }
-        // var bigPlane_1 = $(".bigPlane").css("backgroundImage");
-        // console.log(bigPlane_1);
     }
     
 }
