@@ -51,7 +51,8 @@
         .plane{
             position: absolute;
         }
-        .bigPlane{
+        .bigPlane,
+        .boss{
             width: 169px;
             height: 258px;
             background: url("./src/img/enemy3_n1.png");
@@ -69,7 +70,8 @@
             background: url("./src/img/enemy1.png");
             z-index: 4;
         }
-        .bullet{
+        .bullet,
+        .bossBullet{
             width: 5px;
             height: 11px;
             background: url("./src/img/bullet1.png");
@@ -112,15 +114,33 @@
         #bomb2{
             font-family: myFirstFont;
         }
+        #bloodLine{
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            width: 250px;
+            height: 30px;
+            background: black;
+            margin-left: -100px;
+            border-radius: 15px;
+            display: none;
+        }
+        .blood{
+            width: 100%;
+            height: 100%;
+            background: red;
+            border-radius: 15px;
+        }
     </style>
 </head>
 <body style="overflow-y:hidden">
     <div id="wrapper"></div>
     <div id="bulletBox"></div>
+    <div id="bossBulletBox"></div>
     <div id="enemy">
     </div>  
     <div id="itemBox"></div>
-
+    <div id="bloodLine"></div>
 
     <div class="bg1"></div>
     <div class="bg2"></div>
