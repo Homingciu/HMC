@@ -357,7 +357,7 @@ preloadImages([
 
 
 
-$("body").unbind();   //禁止微信上的事件
+// $("body").unbind();   //禁止微信上的事件
 
 
 // 公共的计时器,把计算出来的lastTime放到全局中
