@@ -14,6 +14,7 @@ var MyPlane = React.createClass({
                 position: "absolute",
                 bottom: "0px",
                 left: "50%",
+                display: "none"
             }
         }
     },
@@ -100,6 +101,7 @@ var Pause = React.createClass({
                 position: "absolute",
                 top: "20px",
                 left: "20px",
+                display: "none",
                 zIndex: 5
             }
         }
@@ -202,7 +204,13 @@ var Info = React.createClass({
     }
 })
 
-
+var Start = React.createClass({
+    render: function () {
+        return (
+            <div id="start"></div>
+        )
+    }
+})
 
 
     
@@ -259,6 +267,7 @@ var App = React.createClass({
     render: function () {
         return (
             <div>
+                <Start></Start> 
                 <Pause onPause={this.onPause}></Pause>
                 <MyPlane drag={!this.state.pause ? this.drag : ""}></MyPlane>
             </div>
@@ -340,7 +349,8 @@ preloadImages([
     './src/img/hero_blowup_n3.png',
     './src/img/hero_blowup_n4.png',
     './src/img/enemy3_n2.png',
-    './src/img/hero2.png'
+    './src/img/hero2.png',
+    "./src/img/game_start.png"
 ])
 
 
@@ -803,7 +813,7 @@ bg();
 
 
 var bullet_music = document.getElementById("bullet_music");
-bullet_music.play();           
+// bullet_music.play();           
 
 
 
@@ -984,7 +994,6 @@ function smallPlaneBomb(oDiv) {
     score.innerHTML = scoreNum;
     var num = 0;
     function die() {
-        
         switch (num) {
             case 0:
                 $(oDiv).css({background: "url('./src/img/enemy1_down1.png')"});
@@ -1175,7 +1184,46 @@ function blood() {
 
 
 
+//开始游戏
 
+function preStart() {
+    itemMoveSpeed = 0;
+    planeMoveSpeed = 0;
+    bulletMoveSpeed = 0;
+    clearInterval(bgTimer);
+    pauseKey = true;
+    clearInterval(myPlaneTimer);
+    clearInterval(bigPlaneTimer);
+    clearInterval(enemyTimer);
+    $("#bomb1").hide();
+    $("#bomb2").hide();
+    $("#score").hide();
+}
+
+preStart(); 
+
+
+function start() {
+    itemMoveSpeed = 4;
+    planeMoveSpeed = 2;
+    bulletMoveSpeed = 10;
+    bg();
+    bullet_music.play();
+    pauseKey = false;
+    startKey = true;
+    requestAnimationFrame(addTime);
+    myPlaneTimer = setInterval(myPlaneAnimation, 100);
+    bigPlaneTimer = setInterval(bigPlaneAnimation, 100);
+    enemyTimer = setInterval(addEnemy, 1000);
+    $(this).remove();
+    $("#bomb1").show();
+    $("#bomb2").show();
+    $("#score").show();
+    $(".myPlane").show();
+    $("#pause").show();
+}
+
+$("#start").on("click", start);
 
 
 
