@@ -32338,6 +32338,8 @@ function planeMove(ele) {
         ele.style.top = ele.offsetTop + planeMoveSpeed + "px";
         if (ele.offsetTop <= window.innerHeight) {
             requestAnimationFrame(move);
+        } else {
+            clearInterval(bigPlaneTimer);
         }
     }
 
@@ -32371,6 +32373,7 @@ function addEnemy() {
         } else {
             if (document.getElementsByClassName("bigPlane").length < 1) {
                 $("<div>").addClass("bigPlane plane").css({ left: Math.floor(Math.random() * (window.innerWidth - bigWidth)) + "px", top: -bigHeight + "px" }).appendTo(enemy);
+                bigPlanePage = 1;
                 bigPlaneTimer = setInterval(bigPlaneAnimation, 100);
             } else {
                 $("<div>").addClass("smallPlane plane").css({ left: Math.floor(Math.random() * (window.innerWidth - smallWidth)) + "px", top: -smallHeight + "px" }).appendTo(enemy);
@@ -32885,24 +32888,29 @@ function smallPlaneBomb(oDiv) {
 }
 
 //myPlane 和 bigPlane的动画
-var myPlane_1 = $("#myPlane").css("backgroundImage");
+var myPlanePage = 1;
 function myPlaneAnimation() {
-    if ($("#myPlane").css("backgroundImage") == 'url("https://homingciu.github.io/HMC/src/img/hero1.png")') {
-        $("#myPlane").css({ background: 'url("https://homingciu.github.io/HMC/src/img/hero2.png")' });
+    if (myPlanePage === 1) {
+        myPlanePage = 2;
+        $("#myPlane").css({ background: 'url("./src/img/hero2.png")' });
     } else {
-        $("#myPlane").css({ background: 'url("https://homingciu.github.io/HMC/src/img/hero1.png")' });
+        myPlanePage = 1;
+        $("#myPlane").css({ background: 'url("./src/img/hero1.png")' });
     }
 }
 
 var myPlaneTimer = setInterval(myPlaneAnimation, 100);
 
+var bigPlanePage;
 function bigPlaneAnimation() {
     if ($(".bigPlane")) {
         if (!$(".bigPlane").hasClass("died")) {
-            if ($(".bigPlane").css("backgroundImage") == 'url("https://homingciu.github.io/HMC/src/img/enemy3_n1.png")') {
-                $(".bigPlane").css({ background: 'url("https://homingciu.github.io/HMC/src/img/enemy3_n2.png")' });
+            if (bigPlanePage == 1) {
+                bigPlanePage = 2;
+                $(".bigPlane").css({ background: 'url("./src/img/enemy3_n2.png")' });
             } else {
-                $(".bigPlane").css({ background: 'url("https://homingciu.github.io/HMC/src/img/enemy3_n1.png")' });
+                bigPlanePage = 1;
+                $(".bigPlane").css({ background: 'url("./src/img/enemy3_n1.png")' });
             }
         }
     }
@@ -32910,13 +32918,16 @@ function bigPlaneAnimation() {
 
 var bigPlaneTimer;
 
+var bossPlanePage;
 function bossAnimation() {
     if ($(".boss")) {
         if (!$(".boss").hasClass("died")) {
-            if ($(".boss").css("backgroundImage") == 'url("https://homingciu.github.io/HMC/src/img/enemy3_n1.png")') {
-                $(".boss").css({ background: 'url("https://homingciu.github.io/HMC/src/img/enemy3_n2.png")' });
+            if (bossPlanePage == 1) {
+                bigPlanePage = 2;
+                $(".boss").css({ background: 'url("./src/img/enemy3_n2.png")' });
             } else {
-                $(".boss").css({ background: 'url("https://homingciu.github.io/HMC/src/img/enemy3_n1.png")' });
+                bossPlanePage = 1;
+                $(".boss").css({ background: 'url("./src/img/enemy3_n1.png")' });
             }
         }
     }
@@ -32928,6 +32939,7 @@ var bossPlaneTimer;
 
 var bossBulletTimer;
 function addBoss() {
+    bossPlanePage = 1;
     bossPlaneTimer = setInterval(bossAnimation, 100);
     blood();
     clearPlane();
