@@ -1,4 +1,4 @@
-const React = require("react");
+/*const React = require("react");
 const ReactDom = require("react-dom");
 
 
@@ -1232,4 +1232,4 @@ $("#start").on("click", start);
 
 
 
-
+*/
