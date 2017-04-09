@@ -32887,7 +32887,6 @@ function smallPlaneBomb(oDiv) {
 //myPlane 和 bigPlane的动画
 var myPlane_1 = $("#myPlane").css("backgroundImage");
 function myPlaneAnimation() {
-    // console.log($("#myPlane").css("backgroundImage")  == 'url("file:///C:/Users/Administrator/Desktop/web/react/src/img/hero1.png")')
     if ($("#myPlane").css("backgroundImage") == 'url("https://homingciu.github.io/HMC/src/img/hero1.png")') {
         $("#myPlane").css({ background: 'url("https://homingciu.github.io/HMC/src/img/hero2.png")' });
     } else {
@@ -33022,7 +33021,6 @@ function preStart() {
     clearInterval(bgTimer);
     pauseKey = true;
     clearInterval(myPlaneTimer);
-    clearInterval(bigPlaneTimer);
     clearInterval(enemyTimer);
     $("#bomb1").hide();
     $("#bomb2").hide();
@@ -33041,7 +33039,6 @@ function start() {
     startKey = true;
     requestAnimationFrame(addTime);
     myPlaneTimer = setInterval(myPlaneAnimation, 100);
-    bigPlaneTimer = setInterval(bigPlaneAnimation, 100);
     enemyTimer = setInterval(addEnemy, 1000);
     $(this).remove();
     $("#bomb1").show();
