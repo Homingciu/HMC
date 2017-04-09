@@ -32635,9 +32635,7 @@ function isCrash(oDiv, oDiv2) {
                         case 4:
                             $(oDiv2).remove();
                             clearInterval(dieTimer);
-                            // alert("game over");
                             window.location.reload();
-                            // alert(0);
                             break;
                     }
                 };
@@ -32923,9 +32921,11 @@ function bossAnimation() {
     if ($(".boss")) {
         if (!$(".boss").hasClass("died")) {
             if (bossPlanePage == 1) {
-                bigPlanePage = 2;
+                // console.log(1);
+                bossPlanePage = 2;
                 $(".boss").css({ background: 'url("./src/img/enemy3_n2.png")' });
             } else {
+                // console.log(2);
                 bossPlanePage = 1;
                 $(".boss").css({ background: 'url("./src/img/enemy3_n1.png")' });
             }
