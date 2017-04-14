@@ -32424,7 +32424,7 @@ function addBullet() {
     }
 }
 
-var bulletTimer = setInterval(addBullet, 120);
+var bulletTimer = setInterval(addBullet, 200);
 
 //------------------------------------------道具-------------------------
 
@@ -32495,10 +32495,10 @@ function doubleBullet() {
 }
 function eatBuffBullet() {
     clearInterval(bulletTimer);
-    doubleBulletTimer = setInterval(doubleBullet, 120);
+    doubleBulletTimer = setInterval(doubleBullet, 200);
     setTimeout(function () {
         clearInterval(doubleBulletTimer);
-        bulletTimer = setInterval(addBullet, 120);
+        bulletTimer = setInterval(addBullet, 200);
     }, 19000);
 }
 

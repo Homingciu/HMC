@@ -1,0 +1,13 @@
+1.getState(); 获得state
+2.dispatch(action); 触发一个action
+3.subscribe(listener); 用于添加监听函数
+
+
+Redux的数据流：
+视图----触发事件----->Action构建函数---->action对象--->Store.dispatch--->reducer函数-----新的状态---->Store---刷新视图--->视图
+
+
+纯函数：  (保证reducer是纯函数)
+1.不对外界产生任何影响
+2.不对输入结果产生影响
+
