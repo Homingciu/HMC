@@ -87,11 +87,6 @@ var Bomb = React.createClass({
 
 // //暂停按钮
 var Pause = React.createClass({
-    getInitialState: function () {
-        return {
-            pause: false
-        }
-    },
     getDefaultProps: function () {
         return {
             style: {
@@ -108,12 +103,7 @@ var Pause = React.createClass({
     },
     onPauseChange: function () {
         this.props.onPause();
-        this.setState({
-            pause: !this.state.pause
-        })
-        itemMoveSpeed = 0;
-        planeMoveSpeed = 0;
-        bulletMoveSpeed = 0;
+        clearInterval(bulletTimer);
         clearInterval(bgTimer);
         bullet_music.pause();
         pauseKey = true;
@@ -121,18 +111,12 @@ var Pause = React.createClass({
         clearInterval(bigPlaneTimer);
         clearInterval(enemyTimer);
     },
-    changePause: function () {
-        this.props.onPause();
-        this.setState({
-            pause: !this.state.pause
-        })
-    },
     render: function () {
         return (
             <div>
-                <div id="pause" style={this.props.style} onClick={this.onPauseChange}></div>
+                <div id="pause" style={this.props.style} onClick={!this.props.pause ? this.onPauseChange : ""}></div>
                 <Score></Score>
-                <Info pauseFlag={this.state.pause} changePause={this.changePause}></Info>
+                <Info pauseFlag={this.props.pause} onPause={this.props.onPause}></Info>
                 <Bomb></Bomb>
             </div>
         )
@@ -171,12 +155,27 @@ var Info = React.createClass({
         }
     },
     continue: function () {
-        itemMoveSpeed = 4;
-        planeMoveSpeed = 2;
-        bulletMoveSpeed = 10;
+        var $Plane = document.getElementsByClassName("plane");
+        var $Bullet = document.getElementsByClassName("bullet");
+        var $Item = document.getElementsByClassName("item");
+        var i,
+            Plen = $Plane.length,
+            Blen = $Bullet.length,
+            Ilen = $Item.length;
+        for(i = 0; i < Plen; i++) {
+            planeMove($Plane[i]);
+        }
+        for(i = 0; i < Blen; i++) {
+            bulletMove($Bullet[i]);
+        }
+        for(i = 0; i < Ilen; i++) {
+            itemMove($Item[i]);
+        }
+        //---------------
+        bulletTimer = setInterval(addBullet, 200);
         bg();
         bullet_music.play();
-        this.props.changePause();
+        this.props.onPause();  
         pauseKey = false;
         startKey = true;
         requestAnimationFrame(addTime);
@@ -255,10 +254,11 @@ var App = React.createClass({
                 plane.style.top = 0;
             }
 
-            event.preventDefault(); //防止屏幕滑动
+            // event.preventDefault(); //防止屏幕滑动
+            
         }
     },
-    onPause: function () {
+    onPause: function () {  //用来停止飞机的拖拽事件
         this.setState({
             pause: !this.state.pause
         })
@@ -268,7 +268,7 @@ var App = React.createClass({
         return (
             <div>
                 <Start></Start> 
-                <Pause onPause={this.onPause}></Pause>
+                <Pause onPause={this.onPause} pause={this.state.pause}></Pause>
                 <MyPlane drag={!this.state.pause ? this.drag : ""}></MyPlane>
             </div>
         )
@@ -357,7 +357,7 @@ preloadImages([
 
 
 
-// $("body").unbind();   //禁止微信上的事件
+$("body").unbind();   //禁止微信上的事件
 
 
 // 公共的计时器,把计算出来的lastTime放到全局中
@@ -403,7 +403,6 @@ requestAnimationFrame(addTime);
 
 
 
-
 //-------------------------------------敌机----------------------
 // 移动
 var planeMoveSpeed = 2;
@@ -425,11 +424,12 @@ function planeMove(ele) {
         //---------------------------移动------------------------------
         ele.style.top = ele.offsetTop + planeMoveSpeed + "px";
         if(ele.offsetTop <= window.innerHeight) {
-            requestAnimationFrame(move);
+            if(!pauseKey) {
+                requestAnimationFrame(move);
+            }
         }else{
             clearInterval(bigPlaneTimer);
         }
-        
     }
     
     requestAnimationFrame(move);
@@ -490,7 +490,9 @@ function bulletMove(ele) {
     // var speed = 10;
     function move() {
         ele.style.top = ele.offsetTop - bulletMoveSpeed+ "px";
-        requestAnimationFrame(move);
+        if(!pauseKey) {
+            requestAnimationFrame(move);
+        }
     }
     requestAnimationFrame(move);
 }
@@ -517,7 +519,7 @@ function addBullet() {
     }
 }
 
-var bulletTimer = setInterval(addBullet, 200);
+var bulletTimer;
 
 //------------------------------------------道具-------------------------
 
@@ -530,7 +532,9 @@ function itemMove(ele) {
         ele.style.top = ele.offsetTop + itemMoveSpeed + "px";
         if(ele.offsetTop <= window.innerHeight) {
             isCrash(ele, myPlane);
-            requestAnimationFrame(move);
+            if(!pauseKey) {
+                requestAnimationFrame(move);
+            }
         }
     }
     requestAnimationFrame(move);
@@ -1196,9 +1200,6 @@ function blood() {
 //开始游戏
 
 function preStart() {
-    itemMoveSpeed = 0;
-    planeMoveSpeed = 0;
-    bulletMoveSpeed = 0;
     clearInterval(bgTimer);
     pauseKey = true;
     clearInterval(myPlaneTimer);
@@ -1212,9 +1213,6 @@ preStart();
 
 
 function start() {
-    itemMoveSpeed = 4;
-    planeMoveSpeed = 2;
-    bulletMoveSpeed = 10;
     bg();
     bullet_music.play();
     pauseKey = false;
@@ -1228,7 +1226,7 @@ function start() {
     $("#score").show();
     $(".myPlane").show();
     $("#pause").show();
-
+    bulletTimer = setInterval(addBullet, 200);
 }
 
 $("#start").on("click", start);
@@ -1238,7 +1236,9 @@ $("#start").on("click", start);
 
 
 
-
+$("#myPlane").on("touchmove", function (event) {
+    event.preventDefault();
+})
 
 
 
